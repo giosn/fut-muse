@@ -1,4 +1,6 @@
-﻿namespace fut_muse_api;
+﻿using fut_muse_api.Repositories;
+
+namespace fut_muse_api;
 
 public class Program
 {
@@ -12,6 +14,9 @@ public class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
+        // Repositories
+        builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
 
         var app = builder.Build();
 
