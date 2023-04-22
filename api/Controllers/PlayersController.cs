@@ -22,9 +22,24 @@ namespace fut_muse_api.Controllers
 
         // GET api/players/1
         [HttpGet("{id}")]
-        public Player Get(int id)
+        public async Task<ActionResult<Player>> Get(int id)
         {
-            return playerRepository.Get(id);
+            try
+            {
+                Player player = await playerRepository.Get(id);
+
+                if (player is null)
+                {
+                    return NotFound($"player with id {id} not found");
+                }
+
+                return Ok(player);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, e.Message);
+            }
         }
     }
 }

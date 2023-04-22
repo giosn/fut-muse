@@ -5,7 +5,7 @@ namespace fut_muse_api.Repositories
 {
 	public interface IPlayerRepository
 	{
-		Player Get(int id);
+		Task<Player> Get(int id);
 	}
 }
 
