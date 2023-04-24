@@ -16,9 +16,11 @@
   <ItemGroup>
     <None Remove="Models\" />
     <None Remove="Repositories\" />
+    <None Remove="Extensions\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Repositories\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
 </Project>

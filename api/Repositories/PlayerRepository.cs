@@ -1,15 +1,12 @@
 ﻿using Fizzler.Systems.HtmlAgilityPack;
+using fut_muse_api.Extensions;
 using fut_muse_api.Models;
 using HtmlAgilityPack;
 
 namespace fut_muse_api.Repositories
 {
-	public class PlayerRepository : IPlayerRepository
-	{
-		public PlayerRepository()
-		{
-		}
-
+    public class PlayerRepository : IPlayerRepository
+    {
         public async Task<Player> Get(int id)
         {
             // retrieve html
@@ -106,7 +103,8 @@ namespace fut_muse_api.Repositories
                             .Descendants("img")
                             .First()
                             .Attributes["title"]
-                            .Value;
+                            .Value
+                            .ReplaceCountry();
                     }
 
                     var dateOfDeathHeader = dataNodes
@@ -219,7 +217,7 @@ namespace fut_muse_api.Repositories
 
                     if (!countryOfBirthValue.Contains("N/A"))
                     {
-                        countryOfBirth = countryOfBirthValue;
+                        countryOfBirth = countryOfBirthValue.ReplaceCountry();
                     }
                 }
 
