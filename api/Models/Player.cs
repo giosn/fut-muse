@@ -6,6 +6,7 @@ namespace fut_muse_api.Models
 		public int TMId { get; set; }
 		public string Name { get; set; }
 		public string FullName { get; set; }
+		public string ImageUrl { get; set; }
 		public string? DateOfBirth { get; set; }
 		public string? PlaceOfBirth { get; set; }
 		public string? CountryOfBirth { get; set; }
@@ -20,6 +21,7 @@ namespace fut_muse_api.Models
 			int tmId,
 			string name,
 			string fullName,
+			string imageUrl,
 			string? dateOfBirth,
 			string? placeOfBirth,
 			string? countryOfBirth,
@@ -34,6 +36,7 @@ namespace fut_muse_api.Models
 			TMId = tmId;
 			Name = name;
 			FullName = fullName;
+			ImageUrl = imageUrl;
 			DateOfBirth = dateOfBirth;
 			PlaceOfBirth = placeOfBirth;
 			CountryOfBirth = countryOfBirth;

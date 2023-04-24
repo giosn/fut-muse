@@ -13,10 +13,10 @@ namespace fut_muse_api.Repositories
         public async Task<Player> Get(int id)
         {
             // retrieve html
-            HttpClient client = new HttpClient();
+            HttpClient client = new();
             client.DefaultRequestHeaders.Add("user-agent", "*");
             string response = await client.GetStringAsync($"https://www.transfermarkt.com/_/profil/spieler/{id}");
-            HtmlDocument htmlDoc = new HtmlDocument();
+            HtmlDocument htmlDoc = new();
             htmlDoc.LoadHtml(response);
 
             HtmlNodeCollection nameNodes = htmlDoc
@@ -239,10 +239,17 @@ namespace fut_muse_api.Repositories
 
                 position = $"{position[0].ToString().ToUpper()}{position[1..]}";
 
+                string imageUrl = htmlDoc
+                    .DocumentNode
+                    .QuerySelector(".data-header__profile-image")
+                    .Attributes["src"]
+                    .Value;
+
                 Player player = new(
                     id,
                     name,
                     fullName,
+                    imageUrl,
                     dateOfBirth,
                     placeOfBirth,
                     countryOfBirth,
