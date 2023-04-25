@@ -7,7 +7,7 @@ namespace fut_muse_api.Repositories
 {
     public class PlayerRepository : IPlayerRepository
     {
-        public async Task<Player> Get(int id)
+        public async Task<Player?> GetProfile(int id)
         {
             // retrieve html
             HttpClient client = new();
@@ -26,7 +26,7 @@ namespace fut_muse_api.Repositories
 
                 HtmlNode strongNode = nameNodes.First(node => node.Name == "strong");
                 int strongNodeIndex = nameNodes.IndexOf(strongNode);
-                IEnumerable<string> actualNames = nameNodes
+                var actualNames = nameNodes
                     .Skip(strongNodeIndex - 1)
                     .Take(2)
                     .Select(node => node.InnerText);
@@ -188,7 +188,7 @@ namespace fut_muse_api.Repositories
                     }
                 }
 
-                IEnumerable<HtmlNode> headerDetailNodes = htmlDoc
+                var headerDetailNodes = htmlDoc
                     .DocumentNode
                     .QuerySelector(".data-header__details")
                     .Descendants("li");
@@ -248,6 +248,120 @@ namespace fut_muse_api.Repositories
             }
 
             return null;
+        }
+
+        public async Task<IEnumerable<Achievement>?> GetAchivements(int id)
+        {
+            HttpClient client = new();
+            client.DefaultRequestHeaders.Add("user-agent", "*");
+            string response = await client.GetStringAsync($"https://www.transfermarkt.com/_/erfolge/spieler/{id}");
+            HtmlDocument htmlDoc = new();
+            htmlDoc.LoadHtml(response);
+
+            HtmlNode? allTitlesHeader = htmlDoc
+                .DocumentNode
+                .Descendants("h2")
+                .FirstOrDefault(node => node.InnerText.ToLower().Trim() == "all titles");
+
+            if (allTitlesHeader is not null)
+            {
+                var tableBodyNodes = allTitlesHeader
+                    .ParentNode
+                    .Descendants("tbody")
+                    .First()
+                    .Descendants("tr");
+
+                List<Achievement> achievements = new();
+                string name = "";
+                int numberOfTitles = 0;
+                List<Title> titles = new();
+
+                for (int i = 0; i < tableBodyNodes.Count(); i++)
+                {
+                    var currentNode = tableBodyNodes.ElementAt(i);
+                    bool nodeIsHeader = currentNode.HasClass("bg_Sturm");
+
+                    if (nodeIsHeader)
+                    {
+                        if (i > 0)
+                        {
+                            achievements.Add(new Achievement(
+                                name,
+                                numberOfTitles,
+                                titles
+                            ));
+                            titles = new();
+                        }
+
+                        string titleNameRowValue = currentNode.InnerText.Trim();
+                        int xIndex = titleNameRowValue.IndexOf("x");
+                        bool isParticipantTitle = titleNameRowValue.ToLower().Contains("participant");
+                        name = titleNameRowValue
+                            .Substring(xIndex + 2)
+                            .ReplaceCountry()
+                            .ReplaceEntity();
+                        numberOfTitles = int.Parse(titleNameRowValue.Substring(0, xIndex));
+                    }
+                    else
+                    {
+                        var titleNodes = currentNode.Descendants("td");
+                        string period = titleNodes
+                            .First()
+                            .InnerText
+                            .Trim();
+                        string? entity = null;
+
+                        if (titleNodes.Count() > 1)
+                        {
+                            var entityValue = titleNodes
+                                .First(node => node.HasClass("no-border-links"))
+                                .InnerText
+                                .Trim();
+                            int remainderIndex = entityValue.IndexOf("\n");
+
+                            if (remainderIndex > 0)
+                            {
+                                entityValue = entityValue.Substring(0, remainderIndex);
+                            }
+
+                            remainderIndex = entityValue.IndexOf(" - ");
+
+                            if (remainderIndex > 0)
+                            {
+                                entityValue = entityValue.Substring(0, remainderIndex);
+                            }
+
+                            entity = entityValue.ReplaceCountry().ReplaceEntity();
+                        }
+
+                        titles.Add(new Title(
+                            period,
+                            entity
+                        ));
+                    }
+                }
+
+                achievements.Add(new Achievement(
+                    name,
+                    numberOfTitles,
+                    titles
+                ));
+
+                return achievements.Where(achievement =>
+                {
+                    return !achievement.Name.ToLower().Contains("participant") &&
+                           !achievement.Name.ToLower().Contains("relegated")   &&
+                           !achievement.Name.ToLower().Contains("personality");
+                });
+            }
+            else
+            {
+                HtmlNode? mostValuablePlayersHeader = htmlDoc
+                    .DocumentNode
+                    .Descendants("h2")
+                    .FirstOrDefault(node => node.InnerText.ToLower().Trim() == "most valuable players");
+                return mostValuablePlayersHeader is null ? Array.Empty<Achievement>() : null;
+            }
         }
     }
 }

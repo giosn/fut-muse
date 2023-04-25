@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using fut_muse_api.Models;
+﻿using fut_muse_api.Models;
 using fut_muse_api.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,13 +16,13 @@ namespace fut_muse_api.Controllers
             this.playerRepository = playerRepository;
         }
 
-        // GET api/players/1
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Player>> Get(int id)
+        // GET api/players/profile/1
+        [HttpGet("profile/{id}")]
+        public async Task<ActionResult<Player>> GetProfile(int id)
         {
             try
             {
-                Player player = await playerRepository.Get(id);
+                var player = await playerRepository.GetProfile(id);
 
                 if (player is null)
                 {
@@ -34,6 +30,28 @@ namespace fut_muse_api.Controllers
                 }
 
                 return Ok(player);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        // GET api/players/achivements/1
+        [HttpGet("achievements/{id}")]
+        public async Task<ActionResult<IEnumerable<Achievement>>> GetAchievements(int id)
+        {
+            try
+            {
+                var achievements = await playerRepository.GetAchivements(id);
+
+                if (achievements is null)
+                {
+                    return NotFound($"player with id {id} not found");
+                }
+
+                return Ok(achievements);
             }
             catch (Exception e)
             {
