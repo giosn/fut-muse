@@ -24,9 +24,7 @@ namespace fut_muse_api.Repositories
             {
                 nameNodes = nameNodes.First().ChildNodes;
 
-                HtmlNode strongNode = nameNodes
-                    .Where(node => node.Name == "strong")
-                    .First();
+                HtmlNode strongNode = nameNodes.First(node => node.Name == "strong");
                 int strongNodeIndex = nameNodes.IndexOf(strongNode);
                 IEnumerable<string> actualNames = nameNodes
                     .Skip(strongNodeIndex - 1)
@@ -54,11 +52,11 @@ namespace fut_muse_api.Repositories
                     HtmlNodeCollection dataNodes = playerDataNode.ChildNodes;
 
                     var fullNameHeader = dataNodes
-                        .Where(node => {
+                        .FirstOrDefault(node =>
+                        {
                             return node.InnerText.ToLower().Contains("name in home country") ||
                                    node.InnerText.ToLower().Contains("full name");
-                         })
-                        .FirstOrDefault();
+                        });
 
                     if (fullNameHeader is not null)
                     {
@@ -70,9 +68,7 @@ namespace fut_muse_api.Repositories
                             .Trim();
                     }
 
-                    var dateOfBirthHeader = dataNodes
-                        .Where(node => node.InnerText.ToLower().Contains("date of birth"))
-                        .FirstOrDefault();
+                    var dateOfBirthHeader = dataNodes.FirstOrDefault(node => node.InnerText.ToLower().Contains("date of birth"));
 
                     if (dateOfBirthHeader is not null)
                     {
@@ -87,9 +83,7 @@ namespace fut_muse_api.Repositories
                         }
                     }
 
-                    var placeOfBirthHeader = dataNodes
-                        .Where(node => node.InnerText.ToLower().Contains("place of birth"))
-                        .FirstOrDefault();
+                    var placeOfBirthHeader = dataNodes.FirstOrDefault(node => node.InnerText.ToLower().Contains("place of birth"));
 
                     if (placeOfBirthHeader is not null)
                     {
@@ -107,9 +101,7 @@ namespace fut_muse_api.Repositories
                             .ReplaceCountry();
                     }
 
-                    var dateOfDeathHeader = dataNodes
-                        .Where(node => node.InnerText.ToLower().Contains("date of death"))
-                        .FirstOrDefault();
+                    var dateOfDeathHeader = dataNodes.FirstOrDefault(node => node.InnerText.ToLower().Contains("date of death"));
 
                     if (dateOfDeathHeader is not null)
                     {
@@ -134,9 +126,7 @@ namespace fut_muse_api.Repositories
 
                     if (age == 0)
                     {
-                        var ageHeader = dataNodes
-                            .Where(node => node.InnerText.ToLower().Contains("age:"))
-                            .FirstOrDefault();
+                        var ageHeader = dataNodes.FirstOrDefault(node => node.InnerText.ToLower().Contains("age:"));
 
                         if (ageHeader is not null)
                         {
@@ -152,9 +142,8 @@ namespace fut_muse_api.Repositories
 
                     if (height == 0)
                     {
-                        var heightHeader = dataNodes
-                            .Where(node => node.InnerText.ToLower().Contains("height:"))
-                            .FirstOrDefault();
+                        var heightHeader = dataNodes.FirstOrDefault(node => node.InnerText.ToLower().Contains("height:"));
+                            
 
                         if (heightHeader is not null)
                         {
@@ -174,9 +163,7 @@ namespace fut_muse_api.Repositories
                         }
                     }
 
-                    var currentClubHeader = dataNodes
-                        .Where(node => node.InnerText.ToLower().Contains("current club"))
-                        .FirstOrDefault();
+                    var currentClubHeader = dataNodes.FirstOrDefault(node => node.InnerText.ToLower().Contains("current club"));
 
                     if (currentClubHeader is not null)
                     {
@@ -209,8 +196,7 @@ namespace fut_muse_api.Repositories
                 if (countryOfBirth is null)
                 {
                     string countryOfBirthValue = headerDetailNodes
-                        .Where(node => node.InnerText.ToLower().Contains("citizenship"))
-                        .First()
+                        .First(node => node.InnerText.ToLower().Contains("citizenship"))
                         .ChildNodes[1]
                         .InnerText
                         .Trim();
@@ -222,8 +208,7 @@ namespace fut_muse_api.Repositories
                 }
 
                 string position = headerDetailNodes
-                    .Where(node => node.InnerText.ToLower().Contains("position"))
-                    .First()
+                    .First(node => node.InnerText.ToLower().Contains("position"))
                     .ChildNodes[1]
                     .InnerText
                     .ToLower()
