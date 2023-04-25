@@ -9,21 +9,19 @@ namespace fut_muse_api.Repositories
     {
         public async Task<Player?> GetProfile(int id)
         {
-            // retrieve html
+            // retrieve html page
             HttpClient client = new();
             client.DefaultRequestHeaders.Add("user-agent", "*");
             string response = await client.GetStringAsync($"https://www.transfermarkt.com/_/profil/spieler/{id}");
             HtmlDocument htmlDoc = new();
             htmlDoc.LoadHtml(response);
 
-            HtmlNodeCollection nameNodes = htmlDoc
-                .DocumentNode
-                .SelectNodes("//header/div/h1");
+            // get the nodes for the name a player is most known for
+            HtmlNodeCollection nameNodes = htmlDoc.DocumentNode.SelectNodes("//header/div/h1");
 
             if (nameNodes is not null)
             {
                 nameNodes = nameNodes.First().ChildNodes;
-
                 HtmlNode strongNode = nameNodes.First(node => node.Name == "strong");
                 int strongNodeIndex = nameNodes.IndexOf(strongNode);
                 var actualNames = nameNodes
@@ -31,26 +29,32 @@ namespace fut_muse_api.Repositories
                     .Take(2)
                     .Select(node => node.InnerText);
 
+                // player property initialization
                 string name = string.Join("", actualNames).Trim();
-
-                HtmlNode playerDataNode = htmlDoc
-                    .DocumentNode
-                    .QuerySelector(".spielerdatenundfakten .info-table.info-table--right-space");
-
                 string fullName = name;
+                string imageUrl = htmlDoc
+                    .DocumentNode
+                    .QuerySelector(".data-header__profile-image")
+                    .Attributes["src"]
+                    .Value;
                 string? dateOfBirth = null;
                 string? placeOfBirth = null;
                 string? countryOfBirth = null;
                 string? dateOfDeath = null;
                 int age = 0;
                 int height = 0;
+                string position = "";
                 string? currentClub = null;
                 string? status = null;
+
+                // get the main node where the key profile info is located
+                HtmlNode playerDataNode = htmlDoc
+                    .DocumentNode
+                    .QuerySelector(".spielerdatenundfakten .info-table.info-table--right-space");
 
                 if (playerDataNode is not null)
                 {
                     HtmlNodeCollection dataNodes = playerDataNode.ChildNodes;
-
                     var fullNameHeader = dataNodes
                         .FirstOrDefault(node =>
                         {
@@ -65,7 +69,7 @@ namespace fut_muse_api.Repositories
                             .InnerText
                             .Replace("geb. ", "b. ") // geb. is german for born (b.)
                             .Replace("geb.", "b. ")  // for players who where born under a different name
-                            .Trim();
+                            .Trim();                 // e.g. Puskás (geb.Purczeld) Ferenc => Puskás (b. Purczeld) Ferenc
                     }
 
                     var dateOfBirthHeader = dataNodes.FirstOrDefault(node => node.InnerText.ToLower().Contains("date of birth"));
@@ -93,6 +97,9 @@ namespace fut_muse_api.Repositories
                             .Replace("&nbsp;", "")
                             .Replace("---, ", "")
                             .Trim();
+
+                        // country of birth is taken from the flag img next to the place of birth
+                        // text due to players sometimes having more than one citizenship
                         countryOfBirth = dataNodes[placeOfBirthHeaderIndex + 2]
                             .Descendants("img")
                             .First()
@@ -116,6 +123,7 @@ namespace fut_muse_api.Repositories
                             )
                             .ToShortDateString();
 
+                        // age is taken from the date of death row for deceased players
                         age = int.Parse(
                             dataNodes[dateOfDeathHeaderIndex + 2]
                                 .InnerText
@@ -143,7 +151,6 @@ namespace fut_muse_api.Repositories
                     if (height == 0)
                     {
                         var heightHeader = dataNodes.FirstOrDefault(node => node.InnerText.ToLower().Contains("height:"));
-                            
 
                         if (heightHeader is not null)
                         {
@@ -172,6 +179,7 @@ namespace fut_muse_api.Repositories
                             .InnerText
                             .Trim();
 
+                        // a player's status is determined based on the current club value
                         if (currentClubValue.ToLower() != "retired" && currentClubValue != "---")
                         {
                             if (currentClubValue.ToLower() != "career break" &&
@@ -183,11 +191,12 @@ namespace fut_muse_api.Repositories
                         }
                         else
                         {
-                            status = currentClubValue == "---" ? "Deceased" : currentClubValue;
+                            status = currentClubValue == "---" ? "Deceased" : "Retired";
                         }
                     }
                 }
 
+                // get the list of the summarized profile info
                 var headerDetailNodes = htmlDoc
                     .DocumentNode
                     .QuerySelector(".data-header__details")
@@ -207,7 +216,7 @@ namespace fut_muse_api.Repositories
                     }
                 }
 
-                string position = headerDetailNodes
+                position = headerDetailNodes
                     .First(node => node.InnerText.ToLower().Contains("position"))
                     .ChildNodes[1]
                     .InnerText
@@ -221,12 +230,6 @@ namespace fut_muse_api.Repositories
                 }
 
                 position = $"{position[0].ToString().ToUpper()}{position[1..]}";
-
-                string imageUrl = htmlDoc
-                    .DocumentNode
-                    .QuerySelector(".data-header__profile-image")
-                    .Attributes["src"]
-                    .Value;
 
                 Player player = new(
                     id,
@@ -247,17 +250,20 @@ namespace fut_muse_api.Repositories
                 return player;
             }
 
+            // player not found
             return null;
         }
 
         public async Task<IEnumerable<Achievement>?> GetAchivements(int id)
         {
+            // retrieve html page
             HttpClient client = new();
             client.DefaultRequestHeaders.Add("user-agent", "*");
             string response = await client.GetStringAsync($"https://www.transfermarkt.com/_/erfolge/spieler/{id}");
             HtmlDocument htmlDoc = new();
             htmlDoc.LoadHtml(response);
 
+            // get the main node where a player's titles are listed
             HtmlNode? allTitlesHeader = htmlDoc
                 .DocumentNode
                 .Descendants("h2")
@@ -265,12 +271,14 @@ namespace fut_muse_api.Repositories
 
             if (allTitlesHeader is not null)
             {
+                // get the titles list
                 var tableBodyNodes = allTitlesHeader
                     .ParentNode
                     .Descendants("tbody")
                     .First()
                     .Descendants("tr");
 
+                // achievement property initialization
                 List<Achievement> achievements = new();
                 string name = "";
                 int numberOfTitles = 0;
@@ -283,6 +291,7 @@ namespace fut_muse_api.Repositories
 
                     if (nodeIsHeader)
                     {
+                        // start building a new achievement once a title header is found
                         if (i > 0)
                         {
                             achievements.Add(new Achievement(
@@ -295,7 +304,6 @@ namespace fut_muse_api.Repositories
 
                         string titleNameRowValue = currentNode.InnerText.Trim();
                         int xIndex = titleNameRowValue.IndexOf("x");
-                        bool isParticipantTitle = titleNameRowValue.ToLower().Contains("participant");
                         name = titleNameRowValue
                             .Substring(xIndex + 2)
                             .ReplaceCountry()
@@ -311,21 +319,22 @@ namespace fut_muse_api.Repositories
                             .Trim();
                         string? entity = null;
 
+                        // check for entity (team, organization, tournament, etc.)
+                        // individually won titles do not have an entity
                         if (titleNodes.Count() > 1)
                         {
                             var entityValue = titleNodes
                                 .First(node => node.HasClass("no-border-links"))
                                 .InnerText
                                 .Trim();
-                            int remainderIndex = entityValue.IndexOf("\n");
 
+                            // filter out extra info (e.g. FC Barcelona - 10 goals => FC Barcelona)
+                            int remainderIndex = entityValue.IndexOf("\n");
                             if (remainderIndex > 0)
                             {
                                 entityValue = entityValue.Substring(0, remainderIndex);
                             }
-
                             remainderIndex = entityValue.IndexOf(" - ");
-
                             if (remainderIndex > 0)
                             {
                                 entityValue = entityValue.Substring(0, remainderIndex);
@@ -341,12 +350,14 @@ namespace fut_muse_api.Repositories
                     }
                 }
 
+                // add remaining achievement
                 achievements.Add(new Achievement(
                     name,
                     numberOfTitles,
                     titles
                 ));
 
+                // filter out unmemorable achivements
                 return achievements.Where(achievement =>
                 {
                     return !achievement.Name.ToLower().Contains("participant") &&

@@ -23,13 +23,7 @@ namespace fut_muse_api.Controllers
             try
             {
                 var player = await playerRepository.GetProfile(id);
-
-                if (player is null)
-                {
-                    return NotFound($"player with id {id} not found");
-                }
-
-                return Ok(player);
+                return player is not null ? Ok(player) : NotFound($"player with id {id} not found");
             }
             catch (Exception e)
             {
@@ -45,13 +39,7 @@ namespace fut_muse_api.Controllers
             try
             {
                 var achievements = await playerRepository.GetAchivements(id);
-
-                if (achievements is null)
-                {
-                    return NotFound($"player with id {id} not found");
-                }
-
-                return Ok(achievements);
+                return achievements is not null ? Ok(achievements) : NotFound($"player with id {id} not found");
             }
             catch (Exception e)
             {
