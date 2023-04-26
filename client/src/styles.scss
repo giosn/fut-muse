@@ -21,11 +21,11 @@ $fut-muse-client-warn: mat.define-palette(mat.$red-palette);
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
 $fut-muse-client-theme: mat.define-light-theme((
-  color: (
-    primary: $fut-muse-client-primary,
-    accent: $fut-muse-client-accent,
-    warn: $fut-muse-client-warn,
-  )
+    color: (
+        primary: $fut-muse-client-primary,
+        accent: $fut-muse-client-accent,
+        warn: $fut-muse-client-warn,
+    )
 ));
 
 // Include theme styles for core and each component used in your app.
@@ -35,5 +35,12 @@ $fut-muse-client-theme: mat.define-light-theme((
 
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body { 
+    height: 100%;
+}
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background: #f4f4f4;
+}
