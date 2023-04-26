@@ -1,0 +1,27 @@
+.main-container {
+    max-width: 1000px;
+    margin: 16px auto;
+}
+.search {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    mat-card {
+        width: 80%;
+        input {
+            width: 100%;
+            border: none;
+            outline: none;
+            -moz-appearance: textfield;
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+        }
+    }
+    button {
+        width: 15%;
+    }
+}
