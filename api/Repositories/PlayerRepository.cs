@@ -42,7 +42,7 @@ namespace fut_muse_api.Repositories
                 string? countryOfBirth = null;
                 string? dateOfDeath = null;
                 int age = 0;
-                int height = 0;
+                int? height = null;
                 string position = "";
                 string? currentClub = null;
                 string? status = null;
@@ -148,25 +148,22 @@ namespace fut_muse_api.Repositories
                         }
                     }
 
-                    if (height == 0)
+                    var heightHeader = dataNodes.FirstOrDefault(node => node.InnerText.ToLower().Contains("height:"));
+
+                    if (heightHeader is not null)
                     {
-                        var heightHeader = dataNodes.FirstOrDefault(node => node.InnerText.ToLower().Contains("height:"));
+                        int heightHeaderIndex = dataNodes.IndexOf(heightHeader);
+                        string heightValue = dataNodes[heightHeaderIndex + 2].InnerText;
 
-                        if (heightHeader is not null)
+                        if (heightValue != "N/A")
                         {
-                            int heightHeaderIndex = dataNodes.IndexOf(heightHeader);
-                            string heightValue = dataNodes[heightHeaderIndex + 2].InnerText;
-
-                            if (heightValue != "N/A")
-                            {
-                                height = int.Parse(
-                                    dataNodes[heightHeaderIndex + 2]
-                                        .InnerText
-                                        .Replace(",", "")
-                                        .Replace("&nbsp;m", "")
-                                        .Trim()
-                                );
-                            }
+                            height = int.Parse(
+                                dataNodes[heightHeaderIndex + 2]
+                                    .InnerText
+                                    .Replace(",", "")
+                                    .Replace("&nbsp;m", "")
+                                    .Trim()
+                            );
                         }
                     }
 

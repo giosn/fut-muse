@@ -12,7 +12,7 @@ namespace fut_muse_api.Models
 		public string? CountryOfBirth { get; set; }
 		public string? DateOfDeath { get; set; }
 		public int Age { get; set; }
-		public int Height { get; set; } // in cm
+		public int? Height { get; set; } // in cm
 		public string Position { get; set; }
 		public string? CurrentClub { get; set; }
 		public string? Status { get; set; } // active, retired, deceased
@@ -27,7 +27,7 @@ namespace fut_muse_api.Models
 			string? countryOfBirth,
 			string? dateOfDeath,
 			int age,
-			int height,
+			int? height,
 			string position,
 			string? currentClub,
 			string? status

@@ -1,5 +1,5 @@
 export interface PlayerDTO {
-    tMId: number,
+    tmId: number,
     name: string,
     fullName: string,
     imageUrl: string,
@@ -8,7 +8,7 @@ export interface PlayerDTO {
     countryOfBirth: string | null,
     dateOfDeath: string | null,
     age: number,
-    height: number,
+    height: number | null,
     position: string,
     currentClub: string | null,
     status: string | null
@@ -25,7 +25,7 @@ export class Player {
         public countryOfBirth: string | null,
         public dateOfDeath: Date | null,
         public age: number,
-        public height: string,
+        public height: string | null,
         public position: string,
         public currentClub: string | null,
         public status: string | null
@@ -33,7 +33,7 @@ export class Player {
 
     static adapt(playerDTO: PlayerDTO) {
         return new Player(
-            playerDTO.tMId,
+            playerDTO.tmId,
             playerDTO.name,
             playerDTO.fullName,
             playerDTO.imageUrl,
@@ -53,7 +53,7 @@ export class Player {
         return dateString ? new Date(dateString) : null;
     }
 
-    private static parseHeight(height: number): string {
-        return `${(height / 100).toFixed(2)} m`;
+    private static parseHeight(height: number | null): string | null {
+        return height ? `${(height / 100).toFixed(2)} m` : null;
     }
 }
