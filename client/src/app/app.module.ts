@@ -7,6 +7,7 @@ import { MaterialModule } from './material.module';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HomePage } from './modules/home/home.page';
+import { FormsModule } from '@angular/forms';
 import { SnackbarComponent } from './services/snackbar.service';
 
 @NgModule({
@@ -21,7 +22,8 @@ import { SnackbarComponent } from './services/snackbar.service';
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

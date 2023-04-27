@@ -3,14 +3,22 @@
     <div class="search">
         <mat-card>
             <input
+                [(ngModel)]="playerId"
                 type="number"
-                placeholder="Enter a TM player ID">
+                placeholder="Enter a TM player ID"
+                (keyup.enter)="getPlayer()"
+                [disabled]="isSearching">
         </mat-card>
         <button
             mat-raised-button
-            color="primary">
-            Search
+            color="primary"
+            [disabled]="!playerId || isSearching"
+            (click)="getPlayer()">
+            <span *ngIf="!isSearching">Search</span>
+            <mat-spinner *ngIf="isSearching"></mat-spinner>
         </button>
     </div>
+
+    <pre>{{player | json}}</pre>
     
 </div>

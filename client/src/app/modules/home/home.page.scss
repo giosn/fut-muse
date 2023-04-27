@@ -19,9 +19,21 @@
                 -webkit-appearance: none;
                 margin: 0;
             }
+            &:disabled {
+                background: none;
+            }
         }
     }
     button {
         width: 15%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    mat-spinner {
+        zoom: 0.3;
+        ::ng-deep circle {
+            stroke: #888;
+        }
     }
 }
