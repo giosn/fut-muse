@@ -15,6 +15,17 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
+        // Add CORS
+        builder.Services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(policy =>
+            {
+                policy.WithOrigins(
+                    "http://localhost:4200"
+                );
+            });
+        });
+
         // Repositories
         builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
 
@@ -27,8 +38,9 @@ public class Program
             app.UseSwaggerUI();
         }
 
-        app.UseAuthorization();
+        app.UseCors();
 
+        app.UseAuthorization();
 
         app.MapControllers();
 
