@@ -3,12 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from './material.module';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { HttpClientModule } from '@angular/common/http';
-import { HomePage } from './modules/home/home.page';
-import { FormsModule } from '@angular/forms';
 import { SnackbarComponent } from './services/snackbar.service';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -21,9 +19,8 @@ import { SnackbarComponent } from './services/snackbar.service';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MaterialModule,
     HttpClientModule,
-    FormsModule
+    SharedModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
