@@ -7,12 +7,14 @@ import { MaterialModule } from './material.module';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HomePage } from './modules/home/home.page';
+import { SnackbarComponent } from './services/snackbar.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     ToolbarComponent,
-    HomePage
+    HomePage,
+    SnackbarComponent
   ],
   imports: [
     BrowserModule,

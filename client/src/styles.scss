@@ -44,3 +44,22 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
     background: #f4f4f4;
 }
+
+// snackbar
+snack-bar-container {
+    &.success {
+        background: #00c853;
+    }
+    &.error {
+        background: #f44336; 
+    }
+    &.warn {
+        background: #f37b1d;
+    }
+    span {
+        color: #fff;
+    }
+    mat-icon {
+        margin-right: 8px;
+    }
+}
