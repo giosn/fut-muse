@@ -102,20 +102,24 @@ namespace fut_muse_api.Repositories
 
                         // country of birth is taken from the flag img next to the place of birth
                         // text due to players sometimes having more than one citizenship
-                        countryOfBirth = dataNodes[placeOfBirthHeaderIndex + 2]
-                            .Descendants("img")
-                            .First()
-                            .Attributes["title"]
-                            .Value
-                            .ReplaceCountry();
-                        string countryOfBirthImageUrlValue = dataNodes[placeOfBirthHeaderIndex + 2]
-                            .Descendants("img")
-                            .First()
-                            .Attributes["data-src"]
-                            .Value
-                            .Replace("/tiny/", "/head/");
-                        int urlEndIndex = countryOfBirthImageUrlValue.IndexOf(".png") + 4;
-                        countryOfBirthImageUrl = countryOfBirthImageUrlValue.Substring(0, urlEndIndex);
+                        var countryOfBirthImgs = dataNodes[placeOfBirthHeaderIndex + 2].Descendants("img");
+
+                        if (countryOfBirthImgs.Any())
+                        {
+                            countryOfBirth = countryOfBirthImgs
+                                .First()
+                                .Attributes["title"]
+                                .Value
+                                .ReplaceCountry();
+                            string countryOfBirthImageUrlValue = dataNodes[placeOfBirthHeaderIndex + 2]
+                                .Descendants("img")
+                                .First()
+                                .Attributes["data-src"]
+                                .Value
+                                .Replace("/tiny/", "/head/");
+                            int urlEndIndex = countryOfBirthImageUrlValue.IndexOf(".png") + 4;
+                            countryOfBirthImageUrl = countryOfBirthImageUrlValue.Substring(0, urlEndIndex);
+                        }
                     }
 
                     var dateOfDeathHeader = dataNodes.FirstOrDefault(node => node.InnerText.ToLower().Contains("date of death"));
