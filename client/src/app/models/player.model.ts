@@ -10,7 +10,8 @@ export interface PlayerDTO {
     age: number,
     height: number | null,
     position: string,
-    currentClub: string | null,
+    club: string | null,
+    clubImageUrl: string | null,
     status: string | null
 };
 
@@ -27,7 +28,8 @@ export class Player {
         public age: number,
         public height: string | null,
         public position: string,
-        public currentClub: string | null,
+        public club: string | null,
+        public clubImageUrl: string | null,
         public status: string | null
     ) { }
 
@@ -44,7 +46,8 @@ export class Player {
             playerDTO.age,
             this.parseHeight(playerDTO.height),
             playerDTO.position,
-            playerDTO.currentClub,
+            playerDTO.club,
+            playerDTO.clubImageUrl,
             playerDTO.status
         );
     }

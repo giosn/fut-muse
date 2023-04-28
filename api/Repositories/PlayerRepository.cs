@@ -44,7 +44,8 @@ namespace fut_muse_api.Repositories
                 int age = 0;
                 int? height = null;
                 string position = "";
-                string? currentClub = null;
+                string? club = null;
+                string? clubImageUrl = null;
                 string? status = null;
 
                 // get the main node where the key profile info is located
@@ -182,7 +183,15 @@ namespace fut_muse_api.Repositories
                             if (currentClubValue.ToLower() != "career break" &&
                                 currentClubValue.ToLower() != "without club")
                             {
-                                currentClub = currentClubValue;
+                                club = currentClubValue;
+                                string clubImageUrlValue = dataNodes[currentClubHeaderIndex + 2]
+                                    .Descendants("img")
+                                    .First()
+                                    .Attributes["srcset"]
+                                    .Value
+                                    .Replace("/small/", "/big/");
+                                int urlEndIndex = clubImageUrlValue.IndexOf(".png") + 4;
+                                clubImageUrl = clubImageUrlValue.Substring(0, urlEndIndex);
                             }
                             status = "Active";
                         }
@@ -240,7 +249,8 @@ namespace fut_muse_api.Repositories
                     age,
                     height,
                     position,
-                    currentClub,
+                    club,
+                    clubImageUrl,
                     status
                 );
 

@@ -14,7 +14,8 @@ namespace fut_muse_api.Models
 		public int Age { get; set; }
 		public int? Height { get; set; } // in cm
 		public string Position { get; set; }
-		public string? CurrentClub { get; set; }
+		public string? Club { get; set; }
+		public string? ClubImageUrl { get; set; }
 		public string? Status { get; set; } // active, retired, deceased
 
 		public Player(
@@ -29,7 +30,8 @@ namespace fut_muse_api.Models
 			int age,
 			int? height,
 			string position,
-			string? currentClub,
+			string? club,
+			string? clubImageUrl,
 			string? status
 		)
 		{
@@ -44,7 +46,8 @@ namespace fut_muse_api.Models
 			Age = age;
 			Height = height;
 			Position = position;
-			CurrentClub = currentClub;
+			Club = club;
+			ClubImageUrl = clubImageUrl;
 			Status = status;
 		}
 	}
