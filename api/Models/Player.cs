@@ -10,6 +10,7 @@ namespace fut_muse_api.Models
 		public string? DateOfBirth { get; set; }
 		public string? PlaceOfBirth { get; set; }
 		public string? CountryOfBirth { get; set; }
+		public string? CountryOfBirthImageUrl { get; set; }
 		public string? DateOfDeath { get; set; }
 		public int Age { get; set; }
 		public int? Height { get; set; } // in cm
@@ -26,6 +27,7 @@ namespace fut_muse_api.Models
 			string? dateOfBirth,
 			string? placeOfBirth,
 			string? countryOfBirth,
+			string? countryOfBirthImageUrl,
 			string? dateOfDeath,
 			int age,
 			int? height,
@@ -42,6 +44,7 @@ namespace fut_muse_api.Models
 			DateOfBirth = dateOfBirth;
 			PlaceOfBirth = placeOfBirth;
 			CountryOfBirth = countryOfBirth;
+			CountryOfBirthImageUrl = countryOfBirthImageUrl;
 			DateOfDeath = dateOfDeath;
 			Age = age;
 			Height = height;

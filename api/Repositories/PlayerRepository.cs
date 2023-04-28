@@ -40,6 +40,7 @@ namespace fut_muse_api.Repositories
                 string? dateOfBirth = null;
                 string? placeOfBirth = null;
                 string? countryOfBirth = null;
+                string? countryOfBirthImageUrl = null;
                 string? dateOfDeath = null;
                 int age = 0;
                 int? height = null;
@@ -107,6 +108,14 @@ namespace fut_muse_api.Repositories
                             .Attributes["title"]
                             .Value
                             .ReplaceCountry();
+                        string countryOfBirthImageUrlValue = dataNodes[placeOfBirthHeaderIndex + 2]
+                            .Descendants("img")
+                            .First()
+                            .Attributes["data-src"]
+                            .Value
+                            .Replace("/tiny/", "/head/");
+                        int urlEndIndex = countryOfBirthImageUrlValue.IndexOf(".png") + 4;
+                        countryOfBirthImageUrl = countryOfBirthImageUrlValue.Substring(0, urlEndIndex);
                     }
 
                     var dateOfDeathHeader = dataNodes.FirstOrDefault(node => node.InnerText.ToLower().Contains("date of death"));
@@ -208,6 +217,8 @@ namespace fut_muse_api.Repositories
                     .QuerySelector(".data-header__details")
                     .Descendants("li");
 
+                // if no place of birth is found, the country of birth is taken from
+                // the first citizenship country flag
                 if (countryOfBirth is null)
                 {
                     string countryOfBirthValue = headerDetailNodes
@@ -219,6 +230,15 @@ namespace fut_muse_api.Repositories
                     if (!countryOfBirthValue.Contains("N/A"))
                     {
                         countryOfBirth = countryOfBirthValue.ReplaceCountry();
+                        string countryOfBirthImageUrlValue = headerDetailNodes
+                            .First(node => node.InnerText.ToLower().Contains("citizenship"))
+                            .Descendants("img")
+                            .First()
+                            .Attributes["src"]
+                            .Value
+                            .Replace("/tiny/", "/head/");
+                        int urlEndIndex = countryOfBirthImageUrlValue.IndexOf(".png") + 4;
+                        countryOfBirthImageUrl = countryOfBirthImageUrlValue.Substring(0, urlEndIndex);
                     }
                 }
 
@@ -245,6 +265,7 @@ namespace fut_muse_api.Repositories
                     dateOfBirth,
                     placeOfBirth,
                     countryOfBirth,
+                    countryOfBirthImageUrl,
                     dateOfDeath,
                     age,
                     height,
