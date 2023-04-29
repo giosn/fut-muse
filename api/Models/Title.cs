@@ -4,14 +4,17 @@
 	{
 		public string Period { get; set; }
 		public string? Entity { get; set; }
+		public string? EntityImageUrl { get; set; }
 
 		public Title(
 			string period,
-			string? entity
+			string? entity,
+			string? entityImageUrl
 		)
 		{
 			Period = period;
 			Entity = entity;
+			EntityImageUrl = entityImageUrl;
 		}
 	}
 }

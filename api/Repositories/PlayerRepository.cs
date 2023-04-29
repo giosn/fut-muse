@@ -350,6 +350,7 @@ namespace fut_muse_api.Repositories
                             .InnerText
                             .Trim();
                         string? entity = null;
+                        string? entityImageUrl = null;
 
                         // check for entity (team, organization, tournament, etc.)
                         // individually won titles do not have an entity
@@ -373,11 +374,29 @@ namespace fut_muse_api.Repositories
                             }
 
                             entity = entityValue.ReplaceCountry().ReplaceEntity();
+                            var entityImageNode = titleNodes.First(node => node.Descendants("img").Any());
+
+                            if (entityImageNode is not null)
+                            {
+                                string entityImageUrlValue = entityImageNode
+                                    .Descendants("img")
+                                    .First()
+                                    .Attributes["src"]
+                                    .Value;
+                                entityImageUrlValue = entityImageUrlValue
+                                    .Replace(
+                                        "/tiny/",
+                                        entityImageUrlValue.Contains("/flagge/") ? "/head/" : "/big/"
+                                    );
+                                int urlEndIndex = entityImageUrlValue.IndexOf(".png") + 4;
+                                entityImageUrl = entityImageUrlValue.Substring(0, urlEndIndex);
+                            }
                         }
 
                         titles.Add(new Title(
                             period,
-                            entity
+                            entity,
+                            entityImageUrl
                         ));
                     }
                 }
