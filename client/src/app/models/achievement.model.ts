@@ -3,7 +3,7 @@ import { Title, TitleDTO } from "./title.model";
 export interface AchievementDTO {
     name: string,
     numberOfTitles: number,
-    titles: string
+    titles: TitleDTO[]
 };
 
 export class Achievement {
@@ -21,8 +21,7 @@ export class Achievement {
         );
     }
 
-    private static parseTitles(titles: string): Title[] {
-        const parsedTitles: TitleDTO[] = JSON.parse(titles);
-        return parsedTitles.map(titleDTO => new Title(titleDTO));
+    private static parseTitles(titles: TitleDTO[]): Title[] {
+        return titles.map(titleDTO => new Title(titleDTO));
     }
 }

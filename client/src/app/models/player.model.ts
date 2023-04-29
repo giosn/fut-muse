@@ -32,7 +32,7 @@ export class Player {
         public position: string,
         public club: string | null,
         public clubImageUrl: string | null,
-        public status: string | null
+        public status: string
     ) { }
 
     static adapt(playerDTO: PlayerDTO) {
@@ -51,7 +51,7 @@ export class Player {
             playerDTO.position,
             playerDTO.club,
             playerDTO.clubImageUrl,
-            playerDTO.status
+            playerDTO.status || 'Unknown'
         );
     }
 

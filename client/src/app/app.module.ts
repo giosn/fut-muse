@@ -7,12 +7,12 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SnackbarComponent } from './services/snackbar.service';
 import { SharedModule } from './shared/shared.module';
+import { HomePageModule } from './modules/home/home.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     ToolbarComponent,
-    HomePage,
     SnackbarComponent
   ],
   imports: [
@@ -21,6 +21,7 @@ import { SharedModule } from './shared/shared.module';
     BrowserAnimationsModule,
     HttpClientModule,
     SharedModule,
+    HomePageModule
   ],
   providers: [],
   bootstrap: [AppComponent]

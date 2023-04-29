@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { Player, PlayerDTO } from 'src/app/models/player.model';
+import { Achievement, AchievementDTO } from 'src/app/models/achievement.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { mergeMap } from 'rxjs';
 
 @Component({
     selector: 'app-home',
@@ -19,6 +21,7 @@ export class HomePage implements OnInit {
     playerId: number;
     isSearching: boolean;
     player: Player | null;
+    achievements: Achievement[];
 
     ngOnInit(): void {
     }
@@ -26,13 +29,21 @@ export class HomePage implements OnInit {
     getPlayer() {
         this.isSearching = true;
         this.api.getPlayerProfile(this.playerId)
-            .subscribe({
-                next: (playerDTO: PlayerDTO) => {
+            .pipe(
+                mergeMap((playerDTO: PlayerDTO) => {
                     const player: Player = Player.adapt(playerDTO);
                     this.player = player;
+                    return this.api.getAchievements(this.playerId);
+                })
+            )
+            .subscribe({
+                next: (achievementDTOs: AchievementDTO[]) => {
+                    const achievements: Achievement[] = achievementDTOs.map(a => Achievement.adapt(a));
+                    this.achievements = achievements;
                 },
                 error: (response: HttpErrorResponse) => {
                     this.player = null;
+                    this.achievements = [];
                     console.error(response.message);
                     console.error(response.error);
                     this.snackbar.show(

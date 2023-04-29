@@ -19,6 +19,10 @@
         </button>
     </div>
 
-    <pre>{{player | json}}</pre>
+    <profile
+        *ngIf="!isSearching && player"
+        [player]="player"
+        [achievements]="achievements">
+    </profile>
     
 </div>
