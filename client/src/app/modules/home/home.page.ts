@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { Player, PlayerDTO } from 'src/app/models/player.model';
 import { Achievement, AchievementDTO } from 'src/app/models/achievement.model';
-import { HttpErrorResponse } from '@angular/common/http';
-import { SnackbarService } from 'src/app/services/snackbar.service';
 import { mergeMap } from 'rxjs';
 
 @Component({
@@ -13,10 +11,7 @@ import { mergeMap } from 'rxjs';
 })
 export class HomePage implements OnInit {
 
-    constructor(
-        private api: ApiService,
-        private snackbar: SnackbarService
-    ) { }
+    constructor(private api: ApiService) { }
 
     playerId: number;
     isSearching: boolean;
@@ -41,15 +36,9 @@ export class HomePage implements OnInit {
                     const achievements: Achievement[] = achievementDTOs.map(a => Achievement.adapt(a));
                     this.achievements = achievements;
                 },
-                error: (response: HttpErrorResponse) => {
+                error: () => {
                     this.player = null;
                     this.achievements = [];
-                    console.error(response.message);
-                    console.error(response.error);
-                    this.snackbar.show(
-                        `Could not find player ${response.status === 404 ? `with TM id ${this.playerId}` : ''}`,
-                        'error'
-                    );
                 }
             })
             .add(() => this.isSearching = false);
