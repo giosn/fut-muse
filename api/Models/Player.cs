@@ -1,12 +1,9 @@
 ﻿using System;
 namespace fut_muse_api.Models
 {
-	public class Player
+	public class Player : Hit
 	{
-		public int TMId { get; set; }
-		public string Name { get; set; }
 		public string FullName { get; set; }
-		public string ImageUrl { get; set; }
 		public string? DateOfBirth { get; set; }
 		public string? PlaceOfBirth { get; set; }
 		public string? CountryOfBirth { get; set; }
@@ -15,9 +12,6 @@ namespace fut_muse_api.Models
 		public int Age { get; set; }
 		public int? Height { get; set; } // in cm
 		public string Position { get; set; }
-		public string? Club { get; set; }
-		public string? ClubImageUrl { get; set; }
-		public string? Status { get; set; } // active, retired, deceased
 
 		public Player(
 			int tmId,
@@ -35,6 +29,15 @@ namespace fut_muse_api.Models
 			string? club,
 			string? clubImageUrl,
 			string? status
+		) : base (
+            tmId,
+			name,
+            imageUrl,
+            club,
+            clubImageUrl,
+			null, // main nationality props from Hit class
+			null, // not needed here
+            status
 		)
 		{
 			TMId = tmId;

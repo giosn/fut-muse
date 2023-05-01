@@ -1,8 +1,7 @@
-export interface PlayerDTO {
-    tmId: number,
-    name: string,
+import { Hit, HitDTO } from "./hit.model";
+
+export interface PlayerDTO extends HitDTO {
     fullName: string,
-    imageUrl: string,
     dateOfBirth: string | null,
     placeOfBirth: string | null,
     countryOfBirth: string | null,
@@ -10,18 +9,15 @@ export interface PlayerDTO {
     dateOfDeath: string | null,
     age: number,
     height: number | null,
-    position: string,
-    club: string | null,
-    clubImageUrl: string | null,
-    status: string | null
+    position: string
 };
 
-export class Player {
+export class Player extends Hit {
     constructor(
-        public tmId: number,
-        public name: string,
+        tmId: number,
+        name: string,
         public fullName: string,
-        public imageUrl: string,
+        imageUrl: string,
         public dateOfBirth: Date | null,
         public placeOfBirth: string | null,
         public countryOfBirth: string | null,
@@ -30,12 +26,23 @@ export class Player {
         public age: number,
         public height: string | null,
         public position: string,
-        public club: string | null,
-        public clubImageUrl: string | null,
-        public status: string
-    ) { }
+        club: string | null,
+        clubImageUrl: string | null,
+        status: string
+    ) {
+        super(
+            tmId,
+            name,
+            imageUrl,
+            club,
+            clubImageUrl,
+            null,
+            null,
+            status
+        );
+    }
 
-    static adapt(playerDTO: PlayerDTO) {
+    static override adapt(playerDTO: PlayerDTO) {
         return new Player(
             playerDTO.tmId,
             playerDTO.name,
