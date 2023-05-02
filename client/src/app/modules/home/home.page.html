@@ -1,28 +1,36 @@
 <div class="main-container">
 
     <div class="search">
-        <mat-card>
+        <mat-form-field appearance="fill">
+            <mat-label>Search player</mat-label>
             <input
-                [(ngModel)]="playerId"
-                type="number"
-                placeholder="Enter a TM player ID"
-                (keyup.enter)="getPlayer()"
-                [disabled]="isSearching">
-        </mat-card>
-        <button
-            mat-raised-button
-            color="primary"
-            [disabled]="!playerId || isSearching"
-            (click)="getPlayer()">
-            <span *ngIf="!isSearching">Search</span>
-            <mat-spinner *ngIf="isSearching"></mat-spinner>
-        </button>
+                matInput
+                [formControl]="playerName"
+                [matAutocomplete]="autoComplete"/>
+                <mat-autocomplete
+                    #autoComplete="matAutocomplete"
+                    autoActiveFirstOption>
+                    <mat-option
+                        *ngIf="isSearching && playerName.value.length > 0"
+                        disabled>
+                        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                    </mat-option>
+                    <div *ngIf="(hits$ | async) as hits">
+                        <mat-option
+                            *ngIf="!isSearching && playerName.value.length >= 3 && hits.length === 0"
+                            disabled>
+                            No players found
+                        </mat-option>
+                        <div *ngIf="!isSearching && playerName.value.length > 3">
+                            <mat-option
+                                *ngFor="let hit of hits"
+                                [value]="hit.tmId">
+                                {{hit.name}}
+                            </mat-option>
+                        </div>
+                    </div>
+                </mat-autocomplete>
+        </mat-form-field>
     </div>
-
-    <profile
-        *ngIf="!isSearching && player"
-        [player]="player"
-        [achievements]="achievements">
-    </profile>
     
 </div>

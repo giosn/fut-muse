@@ -3,38 +3,15 @@
     margin: 16px auto;
 }
 .search {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: stretch;
-    margin-bottom: 24px;
-    mat-card {
-        width: 80%;
+    mat-form-field {
+        width: 100%;
         input {
             width: 100%;
             border: none;
             outline: none;
-            -moz-appearance: textfield;
-            &::-webkit-outer-spin-button,
-            &::-webkit-inner-spin-button {
-                -webkit-appearance: none;
-                margin: 0;
-            }
             &:disabled {
                 background: none;
             }
-        }
-    }
-    button {
-        width: 15%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    mat-spinner {
-        zoom: 0.3;
-        ::ng-deep circle {
-            stroke: #888;
         }
     }
 }

@@ -7,7 +7,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatTabsModule} from '@angular/material/tabs'
+import { MatTabsModule} from '@angular/material/tabs';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
     declarations: [],
@@ -20,6 +22,8 @@ import { MatTabsModule} from '@angular/material/tabs'
         MatSnackBarModule,
         MatProgressSpinnerModule,
         MatTabsModule,
+        MatAutocompleteModule,
+        MatProgressBarModule
     ],
 })
 export class MaterialModule {}
