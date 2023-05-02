@@ -1,0 +1,14 @@
+<div class="main-container">
+
+    <mat-spinner
+        *ngIf="isLoading"
+        value="indeterminate">
+    </mat-spinner>
+
+    <profile
+        *ngIf="!isLoading && player"
+        [player]="player"
+        [achievements]="achievements">
+    </profile>
+
+</div>

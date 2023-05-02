@@ -22,11 +22,13 @@
                             No players found
                         </mat-option>
                         <div *ngIf="!isSearching && playerName.value.length > 3">
-                            <mat-option
+                            <a
                                 *ngFor="let hit of hits"
-                                [value]="hit.tmId">
-                                {{hit.name}}
-                            </mat-option>
+                                routerLink="player/{{hit.tmId}}">
+                                <mat-option [value]="playerName.value">
+                                    {{hit.name}}
+                                </mat-option>
+                            </a>
                         </div>
                     </div>
                 </mat-autocomplete>

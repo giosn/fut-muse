@@ -1,0 +1,11 @@
+.main-container {
+    max-width: 1000px;
+    margin: 16px auto;
+}
+mat-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    zoom: 0.5;
+}

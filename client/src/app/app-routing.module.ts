@@ -8,6 +8,10 @@ const routes: Routes = [
         component: HomePage
     },
     {
+        path: 'player/:id',
+        loadChildren: () => import('./modules/player/player.module').then(m => m.PlayerModule)
+    },
+    {
         path: '**',
         redirectTo: '/'
     }

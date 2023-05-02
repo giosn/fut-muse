@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
-import { Player } from 'src/app/models/player.model';
-import { Achievement } from 'src/app/models/achievement.model';
 import { Observable, debounceTime, distinctUntilChanged, filter, finalize, map, switchMap, tap } from 'rxjs';
 import { Hit, HitDTO } from 'src/app/models/hit.model';
 import { FormControl } from '@angular/forms';
@@ -16,10 +14,7 @@ export class HomePage implements OnInit {
     constructor(private api: ApiService) { }
 
     playerName: FormControl = new FormControl('');
-    playerId: number;
     isSearching: boolean;
-    player: Player | null;
-    achievements: Achievement[];
     hits$: Observable<Hit[]>;
 
     ngOnInit(): void {
