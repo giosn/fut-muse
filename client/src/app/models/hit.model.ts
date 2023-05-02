@@ -21,16 +21,16 @@ export class Hit {
         public status: string
     ) { }
 
-    static adapt(playerDTO: HitDTO) {
+    static adapt(hitDTO: HitDTO) {
         return new Hit(
-            playerDTO.tmId,
-            playerDTO.name,
-            playerDTO.imageUrl,
-            playerDTO.club,
-            playerDTO.clubImageUrl,
-            playerDTO.mainNationality,
-            playerDTO.mainNationalityImageUrl,
-            playerDTO.status || 'Unknown'
+            hitDTO.tmId,
+            hitDTO.name,
+            hitDTO.imageUrl,
+            hitDTO.club,
+            hitDTO.clubImageUrl,
+            hitDTO.mainNationality,
+            hitDTO.mainNationalityImageUrl,
+            hitDTO.status || 'Unknown'
         );
     }
 }

@@ -30,14 +30,14 @@ namespace fut_muse_api.Models
 			string? clubImageUrl,
 			string? status
 		) : base (
-            tmId,
+			tmId,
 			name,
-            imageUrl,
-            club,
-            clubImageUrl,
-			null, // main nationality props from Hit class
-			null, // not needed here
-            status
+			imageUrl,
+			club,
+			clubImageUrl,
+			null, // main nationality properties from
+			null, // hit class not needed here
+			status
 		)
 		{
 			TMId = tmId;
