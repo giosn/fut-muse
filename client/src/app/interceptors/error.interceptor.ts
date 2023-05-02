@@ -30,14 +30,14 @@ export class ErrorInterceptor implements HttpInterceptor {
         let errorMessage: string;
         switch (response.status) {
             case 403:
-                errorMessage = 'Exceed number of TM requests';
+                errorMessage = 'Exceeded number of TM requests';
                 break;
             case 404:
                 const playerId: number = +request.url.split('/').pop()!;
                 errorMessage = `Could not find player with TM id ${playerId}`;
                 break;
             default:
-                errorMessage = 'Could not get player profile';
+                errorMessage = request.url.includes('/home/') ? 'Could not search players' : 'Could not get player profile';
                 break;
         }
         this.snackbar.show(errorMessage, 'error');
