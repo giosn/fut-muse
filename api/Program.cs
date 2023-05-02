@@ -28,6 +28,7 @@ public class Program
 
         // Repositories
         builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
+        builder.Services.AddScoped<IHitRepository, HitRepository>();
 
         var app = builder.Build();
 
