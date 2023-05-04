@@ -13,6 +13,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatRippleModule } from '@angular/material/core';
 
 @NgModule({
     declarations: [],
@@ -30,6 +31,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         MatTableModule,
         MatPaginatorModule,
         MatTooltipModule,
+        MatRippleModule
     ],
 })
 export class MaterialModule {}
