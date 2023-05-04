@@ -15,20 +15,31 @@
                         disabled>
                         <mat-progress-bar mode="indeterminate"></mat-progress-bar>
                     </mat-option>
-                    <div *ngIf="(hits$ | async) as hits">
-                        <mat-option
-                            *ngIf="!isSearching && playerName.value.length >= 3 && hits.length === 0"
-                            disabled>
-                            No players found
-                        </mat-option>
-                        <div *ngIf="!isSearching && playerName.value.length > 3">
-                            <a
-                                *ngFor="let hit of hits"
-                                routerLink="player/{{hit.tmId}}">
-                                <mat-option [value]="playerName.value">
-                                    {{hit.name}}
+                    <div *ngIf="(search$ | async) as search">
+                        <div *ngIf="!isSearching">
+                            <mat-option
+                                *ngIf="playerName.value.length >= 3 && search.hits.length === 0"
+                                disabled>
+                                No players found
+                            </mat-option>
+                            <div *ngIf="playerName.value.length >= 3">
+                                <a
+                                    *ngFor="let hit of search.hits.slice(0, 5)"
+                                    routerLink="player/{{hit.tmId}}">
+                                    <mat-option [value]="playerName.value">
+                                        {{hit.name}}
+                                    </mat-option>
+                                </a>
+                            </div>
+                            <div *ngIf="search.extendedSearchAvailable">
+                                <mat-option
+                                    [value]="playerName.value"
+                                    class="extended"
+                                    (click)="navigateToSearchPage(search.totalHits, search.hits)">
+                                    <mat-icon>search</mat-icon>
+                                    <span>View all results for "{{playerName.value}}"</span>
                                 </mat-option>
-                            </a>
+                            </div>
                         </div>
                     </div>
                 </mat-autocomplete>

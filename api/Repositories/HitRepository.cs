@@ -8,12 +8,14 @@ namespace fut_muse_api.Repositories
 {
     public class HitRepository : IHitRepository
     {
-        public async Task<IEnumerable<Hit>> Get(string query)
+        public async Task<Search> Get(string query, int page)
         {
             // retrieve html page
             HttpClient client = new();
             client.DefaultRequestHeaders.Add("user-agent", "*");
-            string response = await client.GetStringAsync($"https://www.transfermarkt.com/schnellsuche/ergebnis/schnellsuche?query={query}");
+            string requestUri = $"https://www.transfermarkt.com/schnellsuche/ergebnis/schnellsuche?query={query}";
+            requestUri += page > 1 ? $"&Spieler_page={page}" : "";
+            string response = await client.GetStringAsync(requestUri);
             HtmlDocument htmlDoc = new();
             htmlDoc.LoadHtml(response);
 
@@ -23,18 +25,35 @@ namespace fut_muse_api.Repositories
                 .Descendants("h2")
                 .FirstOrDefault(node => node.InnerText.ToLower().Trim().Contains("search results for players"));
 
+            bool extendedSearchAvailable = false;
+            int totalHits = 0;
+            List<Hit> hits = new();
+
             if (searchResultsHeader is not null)
             {
+                totalHits = int.Parse(searchResultsHeader
+                    .InnerText
+                    .ToLower()
+                    .Trim()
+                    .Split(" - ")
+                    .Last()
+                    .Replace(" hits", "")
+                );
+
                 // get the search results
                 var searchResultNodes = htmlDoc
                     .DocumentNode
                     .Descendants("tbody")
                     .First()
-                    .SelectNodes("tr")
-                    .Take(5);
-                List<Hit> hits = new();
+                    .SelectNodes("tr");
 
-                for (int i = 0; i < searchResultNodes.Count(); i++)
+                // enable extended search for more than 5 hits
+                if (searchResultNodes.Count > 5)
+                {
+                    extendedSearchAvailable = true;
+                }
+
+                for (int i = 0; i < searchResultNodes.Count; i++)
                 {
                     // initialize hit properties
                     int tmId = 0;
@@ -130,11 +149,13 @@ namespace fut_muse_api.Repositories
                         status
                     ));
                 }
-
-                return hits;
             }
 
-            return Array.Empty<Hit>();
+            return new Search(
+                extendedSearchAvailable,
+                totalHits,
+                hits
+            );
         }
     }
 }

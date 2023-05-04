@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment as env } from '@env';
 import { PlayerDTO } from '../models/player.model';
 import { AchievementDTO } from '../models/achievement.model';
-import { HitDTO } from '../models/hit.model';
+import { SearchDTO } from '../models/search.model';
 
 @Injectable({
     providedIn: 'root'
@@ -24,8 +24,8 @@ export class ApiService {
         return this.http.get<AchievementDTO[]>(url);
     }
 
-    getSearchResults(query: string) {
-        const url = `${this.baseUrl}/hits/${query}`;
-        return this.http.get<HitDTO[]>(url);
+    getSearchResults(query: string, page: number = 0) {
+        const url = `${this.baseUrl}/hits/${query}?page=${page}`;
+        return this.http.get<SearchDTO>(url);
     }
 }

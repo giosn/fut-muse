@@ -10,6 +10,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule} from '@angular/material/tabs';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
     declarations: [],
@@ -23,7 +25,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
         MatProgressSpinnerModule,
         MatTabsModule,
         MatAutocompleteModule,
-        MatProgressBarModule
-    ],
+        MatProgressBarModule,
+        MatTableModule,
+        MatPaginatorModule
+    ]
 })
 export class MaterialModule {}
