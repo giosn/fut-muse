@@ -1,7 +1,3 @@
-.main-container {
-    max-width: 1000px;
-    margin: 16px auto;
-}
 mat-spinner {
     position: absolute;
     top: 50%;
@@ -14,6 +10,7 @@ mat-spinner {
 }
 mat-card {
     padding: 1px;
+    animation: fade-in 0.5s;
 }
 ::ng-deep .mat-card-content {
     padding: 0 16px;

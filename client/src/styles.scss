@@ -63,3 +63,17 @@ snack-bar-container {
         margin-right: 8px;
     }
 }
+
+// animations
+@keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.main-container,
+.home-container,
+.player-container,
+.profile-container,
+.search-container {
+    animation: fade-in 0.5s;
+}
