@@ -17,29 +17,73 @@
                     </mat-option>
                     <div *ngIf="(search$ | async) as search">
                         <div *ngIf="!isSearching">
+
+                            <!-- default option -->
                             <mat-option
                                 *ngIf="playerName.value.length >= 3 && search.hits.length === 0"
                                 disabled>
                                 No players found
                             </mat-option>
+                            
+                            <!-- search result options -->
                             <div *ngIf="playerName.value.length >= 3">
                                 <a
                                     *ngFor="let hit of search.hits.slice(0, 5)"
                                     routerLink="player/{{hit.tmId}}">
-                                    <mat-option [value]="playerName.value">
-                                        {{hit.name}}
+                                    <mat-option
+                                        class="player-option"
+                                        [value]="playerName.value">
+                                        <div class="player-option-wrapper">
+                                            <div class="player">
+                                                <div
+                                                    class="image"
+                                                    [ngClass]="{'default': hit.imageUrl.includes('default.jpg')}">
+                                                    <img
+                                                        [src]="hit.imageUrl"
+                                                        alt="player-option-image"/>
+                                                </div>
+                                                <div class="status">
+                                                    <div>{{hit.name}}</div>
+                                                    <ng-container *ngIf="hit.club; else elseTemplate">
+                                                        <div class="club">
+                                                            <div class="club-image">
+                                                                <img
+                                                                    [src]="hit.clubImageUrl"
+                                                                    alt="club-image"/>
+                                                            </div>
+                                                            <div class="club-name">{{hit.club}}</div>
+                                                        </div>
+                                                    </ng-container>
+                                                    <ng-template #elseTemplate>
+                                                        <div class="career-status">{{hit.status}}</div>
+                                                    </ng-template>
+                                                </div>
+                                            </div>
+                                            <div 
+                                                *ngIf="hit.mainNationality"
+                                                class="nation"
+                                                [matTooltip]="hit.mainNationality"
+                                                matTooltipPosition="left">
+                                                <img
+                                                    [src]="hit.mainNationalityImageUrl"
+                                                    alt="nation-flag"/>
+                                            </div>
+                                        </div>
                                     </mat-option>
                                 </a>
                             </div>
-                            <div *ngIf="search.extendedSearchAvailable">
+
+                            <!-- extended search option -->
+                            <div *ngIf="search.extendedSearchAvailable && playerName.value.length > 2">
                                 <mat-option
                                     [value]="playerName.value"
                                     class="extended"
-                                    (click)="navigateToSearchPage(search.totalHits, search.hits)">
+                                    (click)="navigateToSearchPage(search)">
                                     <mat-icon>search</mat-icon>
                                     <span>View all results for "{{playerName.value}}"</span>
                                 </mat-option>
                             </div>
+                            
                         </div>
                     </div>
                 </mat-autocomplete>

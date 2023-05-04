@@ -3,7 +3,6 @@ import { ApiService } from 'src/app/services/api.service';
 import { Observable, debounceTime, distinctUntilChanged, filter, finalize, map, switchMap, tap } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { Search, SearchDTO } from 'src/app/models/search.model';
-import { Hit } from 'src/app/models/hit.model';
 import { Router } from '@angular/router';
 
 @Component({
@@ -43,9 +42,12 @@ export class HomePage implements OnInit {
             );
     }
 
-    navigateToSearchPage(totalHits: number, hits: Hit[]) {
+    navigateToSearchPage(search: Search) {
         this.router.navigateByUrl(`/search/${this.playerName.value}`, {
-            state: { totalHits, hits }
+            state: {
+                totalHits: search.totalHits,
+                hits: search.hits
+            }
         });
     }
 }
