@@ -15,17 +15,17 @@ export class ApiService {
     private readonly baseUrl = env.baseUrl;
 
     getPlayerProfile(id: number) {
-        const url = `${this.baseUrl}/players/profile/${id}`;
+        const url = `${this.baseUrl}/player/profile/${id}`;
         return this.http.get<PlayerDTO>(url);
     }
 
     getAchievements(id: number) {
-        const url = `${this.baseUrl}/players/achievements/${id}`;
+        const url = `${this.baseUrl}/player/achievements/${id}`;
         return this.http.get<AchievementDTO[]>(url);
     }
 
     getSearchResults(query: string, page: number = 0) {
-        const url = `${this.baseUrl}/hits/${query}?page=${page}`;
+        const url = `${this.baseUrl}/search/${query}?page=${page}`;
         return this.http.get<SearchDTO>(url);
     }
 }

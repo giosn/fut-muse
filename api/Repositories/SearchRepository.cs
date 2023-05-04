@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace fut_muse_api.Repositories
 {
-    public class HitRepository : IHitRepository
+    public class SearchRepository : ISearchRepository
     {
         public async Task<Search> Get(string query, int page)
         {

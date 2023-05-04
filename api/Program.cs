@@ -28,7 +28,7 @@ public class Program
 
         // Repositories
         builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
-        builder.Services.AddScoped<IHitRepository, HitRepository>();
+        builder.Services.AddScoped<ISearchRepository, SearchRepository>();
 
         var app = builder.Build();
 

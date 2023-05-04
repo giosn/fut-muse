@@ -3,7 +3,7 @@ using fut_muse_api.Models;
 
 namespace fut_muse_api.Repositories
 {
-	public interface IHitRepository
+	public interface ISearchRepository
 	{
 		Task<Search> Get(string query, int page);
 	}

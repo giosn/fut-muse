@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace fut_muse_api.Controllers
 {
     [Route("api/[controller]")]
-    public class PlayersController : Controller
+    public class PlayerController : Controller
     {
         private readonly IPlayerRepository playerRepository;
 
-        public PlayersController(IPlayerRepository playerRepository)
+        public PlayerController(IPlayerRepository playerRepository)
         {
             this.playerRepository = playerRepository;
         }
