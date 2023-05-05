@@ -1,10 +1,15 @@
 <div class="search-container">
 
+    <div class="header">
+        <div>Search</div>
+        <div>{{query}}</div>
+    </div>
+
     <mat-spinner
         *ngIf="isLoading"
         value="indeterminate">
     </mat-spinner>
-    
+
     <mat-card [hidden]="isLoading || table.data.data.length === 0">
         <mat-progress-bar
             *ngIf="table.isLoading"
@@ -25,19 +30,63 @@
             </tr>
             <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef>Name</th>
-                <td mat-cell *matCellDef="let hit">{{hit.name}}</td>
+                <td mat-cell *matCellDef="let hit">
+                    <a [routerLink]="['/player', hit.tmId]">
+                        <circle-img
+                            [imageUrl]="hit.imageUrl"
+                            [size]="36"
+                            [right]="16">
+                        </circle-img>
+                        <div class="text">{{hit.name}}</div>
+                    </a>
+                </td>
             </ng-container>
             <ng-container matColumnDef="nation">
                 <th mat-header-cell *matHeaderCellDef>Nation</th>
-                <td mat-cell *matCellDef="let hit">{{hit.mainNationality || 'Unknown'}}</td>
+                <td mat-cell *matCellDef="let hit">
+                    <a [routerLink]="['/player', hit.tmId]">
+                        <circle-img
+                            *ngIf="hit.mainNationality"
+                            [imageUrl]="hit.mainNationalityImageUrl!"
+                            [size]="36"
+                            [right]="16">
+                        </circle-img>
+                        <!-- &nbsp; allows cell to be clickable when empty -->
+                        <div class="text">{{hit.mainNationality}}&nbsp;</div>
+                    </a>
+                </td>
             </ng-container>
             <ng-container matColumnDef="status">
                 <th mat-header-cell *matHeaderCellDef>Status</th>
-                <td mat-cell *matCellDef="let hit">{{hit.status}}</td>
+                <td mat-cell *matCellDef="let hit">
+                    <a [routerLink]="['/player', hit.tmId]">
+                        <mat-chip-list>
+                            <mat-chip
+                                [class]="hit.status.toLowerCase()"
+                                disabled>
+                                {{hit.status}}
+                            </mat-chip>
+                        </mat-chip-list>
+                    </a>
+                </td>
             </ng-container>
             <ng-container matColumnDef="club">
                 <th mat-header-cell *matHeaderCellDef>Club</th>
-                <td mat-cell *matCellDef="let hit">{{hit.club || 'NA'}}</td>
+                <td mat-cell *matCellDef="let hit">
+                    <a [routerLink]="['/player', hit.tmId]">
+                        <circle-img
+                            *ngIf="hit.club"
+                            [imageUrl]="hit.clubImageUrl!"
+                            [size]="36"
+                            fit="contain"
+                            [right]="16"
+                            [noBorder]="true"
+                            [noRadius]="true">
+                        </circle-img>
+                        <!-- &nbsp; allows cell to be clickable when empty -->
+                        <div class="text">{{hit.club}}&nbsp;</div>
+                    </a>
+                </td>
             </ng-container>
         </table>
         

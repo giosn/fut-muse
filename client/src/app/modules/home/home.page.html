@@ -29,7 +29,7 @@
                             <div *ngIf="playerName.value.length >= 3">
                                 <a
                                     *ngFor="let hit of search.hits.slice(0, 5)"
-                                    routerLink="player/{{hit.tmId}}">
+                                    [routerLink]="['/player', hit.tmId]">
                                     <mat-option
                                         class="player-option"
                                         [value]="playerName.value">
