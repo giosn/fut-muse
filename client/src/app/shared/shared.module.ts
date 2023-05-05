@@ -3,9 +3,12 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from './material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { CircleImgComponent } from '../components/circle-img/circle-img.component';
 
 @NgModule({
-    declarations: [],
+    declarations: [
+        CircleImgComponent
+    ],
     imports: [
         CommonModule,
         MaterialModule,
@@ -18,7 +21,8 @@ import { RouterModule } from '@angular/router';
         MaterialModule,
         FormsModule,
         ReactiveFormsModule,
-        RouterModule
+        RouterModule,
+        CircleImgComponent
     ]
 })
 export class SharedModule { }

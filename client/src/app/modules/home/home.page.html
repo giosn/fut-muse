@@ -35,22 +35,23 @@
                                         [value]="playerName.value">
                                         <div class="player-option-wrapper">
                                             <div class="player">
-                                                <div
-                                                    class="image"
-                                                    [ngClass]="{'default': hit.imageUrl.includes('default.jpg')}">
-                                                    <img
-                                                        [src]="hit.imageUrl"
-                                                        alt="player-option-image"/>
-                                                </div>
+                                                <circle-img
+                                                    [imageUrl]="hit.imageUrl"
+                                                    [size]="36"
+                                                    [right]="16">
+                                                </circle-img>
                                                 <div class="status">
                                                     <div>{{hit.name}}</div>
                                                     <ng-container *ngIf="hit.club; else elseTemplate">
                                                         <div class="club">
-                                                            <div class="club-image">
-                                                                <img
-                                                                    [src]="hit.clubImageUrl"
-                                                                    alt="club-image"/>
-                                                            </div>
+                                                            <circle-img
+                                                                [imageUrl]="hit.clubImageUrl!"
+                                                                [size]="20"
+                                                                fit="contain"
+                                                                [right]="4"
+                                                                [noBorder]="true"
+                                                                [noRadius]="true">
+                                                            </circle-img>
                                                             <div class="club-name">{{hit.club}}</div>
                                                         </div>
                                                     </ng-container>
@@ -59,15 +60,13 @@
                                                     </ng-template>
                                                 </div>
                                             </div>
-                                            <div 
+                                            <circle-img
                                                 *ngIf="hit.mainNationality"
-                                                class="nation"
                                                 [matTooltip]="hit.mainNationality"
-                                                matTooltipPosition="left">
-                                                <img
-                                                    [src]="hit.mainNationalityImageUrl"
-                                                    alt="nation-flag"/>
-                                            </div>
+                                                matTooltipPosition="left"
+                                                [imageUrl]="hit.mainNationalityImageUrl!"
+                                                [size]="36">
+                                            </circle-img>
                                         </div>
                                     </mat-option>
                                 </a>

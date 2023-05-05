@@ -1,0 +1,14 @@
+<div
+    [ngClass]="{'default': imageUrl.includes('default.jpg')}"
+    [ngStyle]="{
+        'width': size + 'px',
+        'height': size + 'px',
+        'margin-right': right + 'px',
+        'border': noBorder ? 'none' : 'solid 1px #32323225',
+        'border-radius': noRadius ? '0' : '50%'
+    }">
+    <img
+        [src]="imageUrl"
+        [ngStyle]="{'object-fit': fit}"
+        alt="image"/>
+</div>
