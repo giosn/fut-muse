@@ -362,32 +362,33 @@ namespace fut_muse_api.Repositories
                                 .Trim();
 
                             // filter out extra info (e.g. FC Barcelona - 10 goals => FC Barcelona)
-                            int remainderIndex = entityValue.IndexOf("\n");
+                            int remainderIndex = entityValue.LastIndexOf(" - ");
                             if (remainderIndex > 0)
                             {
                                 entityValue = entityValue.Substring(0, remainderIndex);
                             }
-                            remainderIndex = entityValue.IndexOf(" - ");
+                            remainderIndex = entityValue.IndexOf("\n");
                             if (remainderIndex > 0)
                             {
                                 entityValue = entityValue.Substring(0, remainderIndex);
                             }
-
                             entity = entityValue.ReplaceCountry().ReplaceEntity();
-                            var entityImageNode = titleNodes.First(node => node.Descendants("img").Any());
 
-                            if (entityImageNode is not null)
+                            // check for entity images as not all entities have a logo
+                            var entityImageNodes = titleNodes.Where(node => node.Descendants("img").Any());
+                            if (entityImageNodes.Any())
                             {
-                                string entityImageUrlValue = entityImageNode
+                                var entityImageUrlValue = entityImageNodes
+                                    .First()
                                     .Descendants("img")
                                     .First()
                                     .Attributes["src"]
                                     .Value;
                                 entityImageUrlValue = entityImageUrlValue
-                                    .Replace(
-                                        "/tiny/",
-                                        entityImageUrlValue.Contains("/flagge/") ? "/head/" : "/medium/"
-                                    );
+                                .Replace(
+                                    "/tiny/",
+                                    entityImageUrlValue.Contains("/flagge/") ? "/head/" : "/medium/"
+                                );
                                 int urlEndIndex = entityImageUrlValue.IndexOf(".png") + 4;
                                 entityImageUrl = entityImageUrlValue.Substring(0, urlEndIndex);
                             }
