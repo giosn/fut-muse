@@ -4,6 +4,7 @@ import { Observable, debounceTime, distinctUntilChanged, filter, finalize, map, 
 import { FormControl } from '@angular/forms';
 import { Search, SearchDTO } from 'src/app/models/search.model';
 import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-home',
@@ -13,9 +14,12 @@ import { Router } from '@angular/router';
 export class HomePage implements OnInit {
 
     constructor(
+        private title: Title,
         private api: ApiService,
         private router: Router
-    ) { }
+    ) {
+        title.setTitle('Fut Muse | Home');
+    }
 
     playerName: FormControl = new FormControl('');
     isSearching: boolean;

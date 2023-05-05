@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription, mergeMap } from 'rxjs';
 import { Achievement, AchievementDTO } from 'src/app/models/achievement.model';
@@ -13,8 +14,11 @@ import { ApiService } from 'src/app/services/api.service';
 export class PlayerPage implements OnInit {
 
     constructor(
+        private title: Title,
         private route: ActivatedRoute,
-        private api: ApiService) {
+        private api: ApiService
+    ) {
+        this.title.setTitle('Fut Muse | Player');
         route.params.subscribe(params => this.params = params);
         this.id = this.params['id'];
     }
@@ -53,6 +57,11 @@ export class PlayerPage implements OnInit {
                     this.achievements = [];
                 }
             });
-        this.playerSub.add(() => this.isLoading = false);
+        this.playerSub.add(() => {
+            this.isLoading = false;
+            if (this.player) {
+                this.title.setTitle(`${this.title.getTitle()} | ${this.player.name}`);
+            }
+        });
     }
 }

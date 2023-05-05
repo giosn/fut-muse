@@ -2,6 +2,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, switchMap, finalize, map } from 'rxjs';
 import { Hit } from 'src/app/models/hit.model';
@@ -18,11 +19,13 @@ export class SearchPage implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     constructor(
+        private title: Title,
         private router: Router,
         private route: ActivatedRoute,
         private changeDetect: ChangeDetectorRef,
         private api: ApiService
     ) {
+        title.setTitle(`Fut Muse | Search | ${this.query}`);
         route.params.subscribe(params => this.query = params['query']);
         const state = router.getCurrentNavigation()?.extras?.state;
         this.totalHits = state?.['totalHits'] || 0;
