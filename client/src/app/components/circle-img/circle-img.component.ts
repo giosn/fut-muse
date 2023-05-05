@@ -8,7 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class CircleImgComponent implements OnInit {
 
     @Input('imageUrl') imageUrl: string;
-    @Input('size') size: number;
+    @Input('size') size: number | string;
     @Input('fit') fit: 'cover' | 'contain' = 'cover';
     @Input('right') right = 0;
     @Input('noBorder') noBorder = false;
@@ -16,7 +16,10 @@ export class CircleImgComponent implements OnInit {
     
     constructor() { }
 
+    trueSize: string;
+
     ngOnInit(): void {
+        this.trueSize = typeof this.size === 'number' ? `${this.size}px`: this.size;
     }
 
 }

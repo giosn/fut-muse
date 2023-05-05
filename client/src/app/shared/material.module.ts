@@ -15,6 +15,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRippleModule } from '@angular/material/core';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
     declarations: [],
@@ -33,7 +34,8 @@ import { MatChipsModule } from '@angular/material/chips';
         MatPaginatorModule,
         MatTooltipModule,
         MatRippleModule,
-        MatChipsModule
+        MatChipsModule,
+        MatListModule
     ],
 })
 export class MaterialModule {}

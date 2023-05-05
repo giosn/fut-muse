@@ -1,9 +1,118 @@
 <div class="profile-container">
 
     <mat-card>
+        <div class="quick-info">
+            <circle-img
+                [imageUrl]="player.imageUrl"
+                [size]="100"
+                [right]="16">
+            </circle-img>
+            <div class="names">
+                <div class="name">{{player.name}}</div>
+                <div class="full-name">{{player.fullName}}</div>
+                <mat-chip-list>
+                    <mat-chip
+                        disabled
+                        [class]="player.status.toLowerCase()">
+                        {{player.status}}
+                    </mat-chip>
+                </mat-chip-list>
+            </div>
+        </div>
         <mat-tab-group dynamicHeight>
             <mat-tab label="Profile">
-                <pre>{{player | json}}</pre>
+                <mat-list>
+                    <div mat-subheader>Place of birth</div>
+                    <mat-list-item>
+                        <circle-img
+                            *ngIf="player.countryOfBirth"
+                            matListIcon
+                            [imageUrl]="player.countryOfBirthImageUrl!"
+                            size="100%"
+                            [right]="8">
+                        </circle-img>
+                        <mat-icon
+                            *ngIf="!player.countryOfBirth"
+                            mat-list-icon>
+                            flag
+                        </mat-icon>
+                        <div mat-line>
+                            {{
+                                player.countryOfBirth
+                                    ? player.placeOfBirth
+                                        ? player.placeOfBirth + ', ' + player.countryOfBirth
+                                        : player.countryOfBirth
+                                    : 'Unknown'
+                            }}
+                        </div>
+                    </mat-list-item>
+                    <mat-divider></mat-divider>
+                    <ng-container *ngIf="player.status === 'Deceased'">
+                        <div mat-subheader>Date of birth</div>
+                        <mat-list-item>
+                            <mat-icon mat-list-icon>crib</mat-icon>
+                            <div mat-line>{{player.dateOfBirth | date: 'mediumDate' || 'Unknown'}}</div>
+                        </mat-list-item>
+                        <mat-divider></mat-divider>
+                        <div mat-subheader>Date of death</div>
+                        <mat-list-item>
+                            <mat-icon mat-list-icon svgIcon="rip"></mat-icon>
+                            <div mat-line>
+                                {{player.dateOfDeath | date: 'mediumDate' || 'Unknown'}}
+                                <span *ngIf="player.dateOfDeath && player.age">({{player.age}})</span>
+                            </div>
+                        </mat-list-item>
+                        <mat-divider></mat-divider>
+                    </ng-container>
+                    <ng-container *ngIf="player.status !== 'Deceased'">
+                        <div mat-subheader>Age</div>
+                        <mat-list-item>
+                            <mat-icon mat-list-icon>person</mat-icon>
+                            <div mat-line>
+                                {{player.age || 'Unknown'}}
+                                {{
+                                    player.age && player.dateOfBirth
+                                        ? '(' + (player.dateOfBirth | date: 'mediumDate') + ')'
+                                        : ''
+                                }}
+                            </div>
+                        </mat-list-item>
+                        <mat-divider></mat-divider>
+                    </ng-container>
+                    <div mat-subheader>Height</div>
+                    <mat-list-item>
+                        <mat-icon mat-list-icon>height</mat-icon>
+                        <div mat-line>{{player.height || 'Unknown'}}</div>
+                    </mat-list-item>
+                    <mat-divider></mat-divider>
+                    <ng-container *ngIf="player.status === 'Active'">
+                        <div mat-subheader>Club</div>
+                        <mat-list-item>
+                            <circle-img
+                                *ngIf="player.club"
+                                matListIcon
+                                [imageUrl]="player.clubImageUrl!"
+                                size="100%"
+                                fit="contain"
+                                [right]="8"
+                                [noBorder]="true"
+                                [noRadius]="true">
+                            </circle-img>
+                            <mat-icon
+                                *ngIf="!player.club"
+                                mat-list-icon>
+                                sports_soccer
+                            </mat-icon>
+                            <div mat-line>{{player.club || 'NA'}}</div>
+                        </mat-list-item>
+                        <mat-divider></mat-divider>
+                    </ng-container>
+                    <div mat-subheader>Position</div>
+                    <mat-list-item>
+                        <mat-icon mat-list-icon>directions_run</mat-icon>
+                        <div mat-line>{{player.position}}</div>
+                    </mat-list-item>
+                </mat-list>
             </mat-tab>
 
             <mat-tab label="Achievements">

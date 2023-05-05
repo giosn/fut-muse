@@ -1,3 +1,53 @@
 ::ng-deep mat-tab-header {
     margin: -16px -16px 0;
 }
+.quick-info,
+.names,
+.full-details {
+    display: flex;
+}
+.quick-info {
+    margin-bottom: 24px;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    .names {
+        flex-direction: column;
+        > div {
+            padding: 4px;
+        }
+        .name {
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .full-name {
+            font-size: 16px;
+            color: #999;
+        }
+        mat-chip-list {
+            padding: 8px 4px;
+        }
+        mat-chip {
+            background: #fbc02d;
+            color: #fff;
+            min-height: 26px;
+            &[disabled] {
+                opacity: 1;
+            }
+            &.active {
+                background: #00c853;
+            }
+            &.retired {
+                background: #01579b;
+            }
+            &.deceased {
+                background: #616161;
+            }
+        }
+    }
+}
+.mat-list-icon {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 32px !important;
+}

@@ -386,7 +386,7 @@ namespace fut_muse_api.Repositories
                                 entityImageUrlValue = entityImageUrlValue
                                     .Replace(
                                         "/tiny/",
-                                        entityImageUrlValue.Contains("/flagge/") ? "/head/" : "/big/"
+                                        entityImageUrlValue.Contains("/flagge/") ? "/head/" : "/medium/"
                                     );
                                 int urlEndIndex = entityImageUrlValue.IndexOf(".png") + 4;
                                 entityImageUrl = entityImageUrlValue.Substring(0, urlEndIndex);
