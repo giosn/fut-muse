@@ -51,7 +51,8 @@ export class SearchPage implements OnInit {
     }
 
     ngAfterViewInit(): void {
-        this.initializeTable();
+        this.checkTotalHits();
+        // allows for paginator detection
         this.changeDetect.detectChanges();
     }
 
@@ -59,14 +60,17 @@ export class SearchPage implements OnInit {
         this.paginatorSub?.unsubscribe();
     }
 
-    initializeTable() {
-        if (this.totalHits === 0 || this.totalHits > 10) {
+    checkTotalHits() {
+        if (this.totalHits === 0) {
             this.listenToPageChanges();
-            this.paginator.page.emit({
-                pageIndex: 0,
-                pageSize: 0,
-                length: this.totalHits
-            });
+            this.paginator.page.emit();
+        }
+        else if (this.totalHits > 10) {
+            this.listenToPageChanges();
+            this.isLoading = false;
+        }
+        else {
+            this.isLoading = false;
         }
     }
 
@@ -75,7 +79,7 @@ export class SearchPage implements OnInit {
             .pipe(
                 switchMap((pageEvent: PageEvent) => {
                     this.table.isLoading = true;
-                    const page = pageEvent.pageIndex + 1;
+                    const page = pageEvent?.pageIndex + 1 || 0;
                     return this.api.getSearchResults(this.query, page)
                         .pipe(
                             map((searchDTO: SearchDTO) => {
