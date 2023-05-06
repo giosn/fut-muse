@@ -1,4 +1,5 @@
-﻿using Fizzler.Systems.HtmlAgilityPack;
+﻿using System.Text.RegularExpressions;
+using Fizzler.Systems.HtmlAgilityPack;
 using fut_muse_api.Extensions;
 using fut_muse_api.Models;
 using HtmlAgilityPack;
@@ -386,10 +387,10 @@ namespace fut_muse_api.Repositories
                                     .First()
                                     .Attributes["src"]
                                     .Value;
-                                entityImageUrlValue = entityImageUrlValue
-                                .Replace(
-                                    "/tiny/",
-                                    entityImageUrlValue.Contains("/flagge/") ? "/head/" : "/medium/"
+                                entityImageUrlValue = Regex.Replace(
+                                    entityImageUrlValue,
+                                    "(/tiny/|/verysmall/)",
+                                    entityImageUrlValue.Contains("/flagge/") ? "/head/" : "/big/"
                                 );
                                 int urlEndIndex = entityImageUrlValue.IndexOf(".png") + 4;
                                 entityImageUrl = entityImageUrlValue.Substring(0, urlEndIndex);

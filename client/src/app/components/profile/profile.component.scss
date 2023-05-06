@@ -24,9 +24,6 @@
             font-size: 16px;
             color: #999;
         }
-        mat-chip-list {
-            padding: 8px 4px;
-        }
         mat-chip {
             background: #fbc02d;
             color: #fff;
@@ -38,7 +35,7 @@
                 background: #00c853;
             }
             &.retired {
-                background: #01579b;
+                background: #1976d2;
             }
             &.deceased {
                 background: #616161;
@@ -50,4 +47,30 @@
     width: 32px !important;
     height: 32px !important;
     font-size: 32px !important;
+}
+.mat-tab-group {
+    .mat-chip-disabled,
+    .mat-badge-content {
+        opacity: 0.7 !important;
+    }
+    .mat-badge-content {
+        position: unset;
+        margin-left: 8px;
+        background-color: #e0e0e0;
+        color: rgba(0, 0, 0, 0.87);
+    }
+}
+.no-achievements {
+    opacity: 0.4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    height: 150px;
+    mat-icon {
+        margin-right: 12px;
+        font-size: 36px;
+        width: 36px;
+        height: 36px;
+    }
 }

@@ -1,6 +1,7 @@
 <div class="profile-container">
 
     <mat-card>
+
         <div class="quick-info">
             <circle-img
                 [imageUrl]="player.imageUrl"
@@ -19,7 +20,9 @@
                 </mat-chip-list>
             </div>
         </div>
+
         <mat-tab-group dynamicHeight>
+
             <mat-tab label="Profile">
                 <mat-list>
                     <div mat-subheader>Place of birth</div>
@@ -116,9 +119,51 @@
             </mat-tab>
 
             <mat-tab label="Achievements">
-                <pre>{{achievements | json}}</pre>
+                <ng-container *ngIf="achievements.length > 0; else elseTemplate">
+                    <mat-list>
+                        <ng-container *ngFor="let achievement of achievements; let i = index">
+                            <div
+                                mat-subheader
+                                [matBadge]="achievement.numberOfTitles">
+                                {{achievement.name}}
+                            </div>
+                            <mat-list-item *ngFor="let title of achievement.titles">
+                                <circle-img
+                                    *ngIf="title.entityImageUrl"
+                                    matListIcon
+                                    [imageUrl]="title.entityImageUrl!"
+                                    size="100%"
+                                    [fit]="title.entityImageUrl.includes('/flagge/') ? 'cover' : 'contain'"
+                                    [right]="8"
+                                    [noBorder]="!title.entityImageUrl.includes('/flagge/')"
+                                    [noRadius]="!title.entityImageUrl.includes('/flagge/')">
+                                </circle-img>
+                                <mat-icon
+                                    *ngIf="!title.entityImageUrl"
+                                    mat-list-icon>
+                                    emoji_events
+                                </mat-icon>
+                                <div mat-line>{{title.entity}}&nbsp;</div>
+                                <mat-chip-list>
+                                    <mat-chip *ngFor="let period of title.periods" disabled>
+                                        {{period}}
+                                    </mat-chip>
+                                </mat-chip-list>
+                            </mat-list-item>
+                            <mat-divider *ngIf="i < achievements.length - 1"></mat-divider>
+                        </ng-container>
+                    </mat-list>
+                </ng-container>
+                <ng-template #elseTemplate>
+                    <div class="no-achievements">
+                        <mat-icon>emoji_events</mat-icon>
+                        <div>No achievements found</div>
+                    </div>
+                </ng-template>
             </mat-tab>
+
         </mat-tab-group>
+        
     </mat-card>
 
 </div>
