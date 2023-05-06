@@ -38,6 +38,8 @@ namespace fut_muse_api.Repositories
                     .QuerySelector(".data-header__profile-image")
                     .Attributes["src"]
                     .Value;
+                string? mainNationality = null;
+                string? mainNationalityImageUrl = null;
                 string? dateOfBirth = null;
                 string? placeOfBirth = null;
                 string? countryOfBirth = null;
@@ -222,29 +224,32 @@ namespace fut_muse_api.Repositories
                     .QuerySelector(".data-header__details")
                     .Descendants("li");
 
-                // if no place of birth is found, the country of birth is taken from
-                // the first citizenship country flag
-                if (countryOfBirth is null)
-                {
-                    string countryOfBirthValue = headerDetailNodes
+                string mainNationalityValue = headerDetailNodes
                         .First(node => node.InnerText.ToLower().Contains("citizenship"))
                         .ChildNodes[1]
                         .InnerText
                         .Trim();
 
-                    if (!countryOfBirthValue.Contains("N/A"))
-                    {
-                        countryOfBirth = countryOfBirthValue.ReplaceCountry();
-                        string countryOfBirthImageUrlValue = headerDetailNodes
-                            .First(node => node.InnerText.ToLower().Contains("citizenship"))
-                            .Descendants("img")
-                            .First()
-                            .Attributes["src"]
-                            .Value
-                            .Replace("/tiny/", "/head/");
-                        int urlEndIndex = countryOfBirthImageUrlValue.IndexOf(".png") + 4;
-                        countryOfBirthImageUrl = countryOfBirthImageUrlValue.Substring(0, urlEndIndex);
-                    }
+                if (!mainNationalityValue.Contains("N/A"))
+                {
+                    mainNationality = mainNationalityValue.ReplaceCountry();
+                    string mainNationalityImageUrlValue = headerDetailNodes
+                        .First(node => node.InnerText.ToLower().Contains("citizenship"))
+                        .Descendants("img")
+                        .First()
+                        .Attributes["src"]
+                        .Value
+                        .Replace("/tiny/", "/head/");
+                    int urlEndIndex = mainNationalityImageUrlValue.IndexOf(".png") + 4;
+                    mainNationalityImageUrl = mainNationalityImageUrlValue.Substring(0, urlEndIndex);
+                }
+
+                // if no place of birth is found, the country of birth is
+                // set to the main nationality values
+                if (countryOfBirth is null)
+                {
+                    countryOfBirth = mainNationality;
+                    countryOfBirthImageUrl = mainNationalityImageUrl;
                 }
 
                 position = headerDetailNodes
@@ -267,6 +272,8 @@ namespace fut_muse_api.Repositories
                     name,
                     fullName,
                     imageUrl,
+                    mainNationality,
+                    mainNationalityImageUrl,
                     dateOfBirth,
                     placeOfBirth,
                     countryOfBirth,

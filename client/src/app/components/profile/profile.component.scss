@@ -2,19 +2,20 @@
     margin: -16px -16px 0;
 }
 .quick-info,
-.names,
-.full-details {
+.quick-info > div,
+.nationality,
+.full-details,
+.no-achievements {
     display: flex;
 }
 .quick-info {
     margin-bottom: 24px;
-    flex-direction: row;
     align-items: center;
     width: 100%;
-    .names {
+    > div {
         flex-direction: column;
         > div {
-            padding: 4px;
+            padding: 4px 0;
         }
         .name {
             font-size: 28px;
@@ -24,12 +25,22 @@
             font-size: 16px;
             color: #999;
         }
+        .nationality {
+            align-items: center;
+            mat-icon {
+                margin: 0 4px 0 -2px;
+                color: #424242;
+            }
+        }
         mat-chip {
-            background: #fbc02d;
             color: #fff;
             min-height: 26px;
             &[disabled] {
                 opacity: 1;
+            }
+            &.main {
+                opacity: 0.7;
+                color: inherit;
             }
             &.active {
                 background: #00c853;
@@ -39,6 +50,9 @@
             }
             &.deceased {
                 background: #616161;
+            }
+            &.unknown {
+                background: #fbc02d;
             }
         }
     }
@@ -62,7 +76,6 @@
 }
 .no-achievements {
     opacity: 0.4;
-    display: flex;
     justify-content: center;
     align-items: center;
     font-size: 20px;

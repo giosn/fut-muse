@@ -2,10 +2,10 @@ export interface HitDTO {
     tmId: number,
     name: string,
     imageUrl: string,
-    club: string | null,
-    clubImageUrl: string | null,
     mainNationality: string | null,
     mainNationalityImageUrl: string | null,
+    club: string | null,
+    clubImageUrl: string | null,
     status: string | null
 };
 
@@ -14,10 +14,10 @@ export class Hit {
         public tmId: number,
         public name: string,
         public imageUrl: string,
-        public club: string | null,
-        public clubImageUrl: string | null,
         public mainNationality: string | null,
         public mainNationalityImageUrl: string | null,
+        public club: string | null,
+        public clubImageUrl: string | null,
         public status: string
     ) { }
 
@@ -26,10 +26,10 @@ export class Hit {
             hitDTO.tmId,
             hitDTO.name,
             hitDTO.imageUrl,
-            hitDTO.club,
-            hitDTO.clubImageUrl,
             hitDTO.mainNationality,
             hitDTO.mainNationalityImageUrl,
+            hitDTO.club,
+            hitDTO.clubImageUrl,
             hitDTO.status || 'Unknown'
         );
     }

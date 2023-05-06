@@ -8,16 +8,34 @@
                 [size]="100"
                 [right]="16">
             </circle-img>
-            <div class="names">
+            <div>
                 <div class="name">{{player.name}}</div>
                 <div class="full-name">{{player.fullName}}</div>
-                <mat-chip-list>
-                    <mat-chip
-                        disabled
-                        [class]="player.status.toLowerCase()">
-                        {{player.status}}
-                    </mat-chip>
-                </mat-chip-list>
+                <div class="nationality">
+                    <circle-img
+                        *ngIf="player.mainNationalityImageUrl"
+                        [imageUrl]="player.mainNationalityImageUrl!"
+                        [size]="26"
+                        [right]="7">
+                    </circle-img>
+                    <mat-icon
+                        *ngIf="!player.mainNationalityImageUrl"
+                        mat-list-icon>
+                        flag_circle
+                    </mat-icon>
+                    <mat-chip-list>
+                        <mat-chip
+                            class="main"
+                            disabled>
+                            {{player.mainNationality}}
+                        </mat-chip>
+                        <mat-chip
+                            disabled
+                            [class]="player.status.toLowerCase()">
+                            {{player.status}}
+                        </mat-chip>
+                    </mat-chip-list>
+                </div>
             </div>
         </div>
 

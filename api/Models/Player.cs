@@ -18,6 +18,8 @@ namespace fut_muse_api.Models
 			string name,
 			string fullName,
 			string imageUrl,
+			string? mainNationality,
+			string? mainNationalityImageUrl,
 			string? dateOfBirth,
 			string? placeOfBirth,
 			string? countryOfBirth,
@@ -33,10 +35,10 @@ namespace fut_muse_api.Models
 			tmId,
 			name,
 			imageUrl,
+			mainNationality,
+			mainNationalityImageUrl,
 			club,
 			clubImageUrl,
-			null, // main nationality properties from
-			null, // hit class not needed here
 			status
 		)
 		{
@@ -44,6 +46,8 @@ namespace fut_muse_api.Models
 			Name = name;
 			FullName = fullName;
 			ImageUrl = imageUrl;
+			MainNationality = mainNationality;
+			MainNationalityImageUrl = mainNationalityImageUrl;
 			DateOfBirth = dateOfBirth;
 			PlaceOfBirth = placeOfBirth;
 			CountryOfBirth = countryOfBirth;

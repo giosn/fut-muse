@@ -12,12 +12,14 @@ export interface PlayerDTO extends HitDTO {
     position: string
 };
 
-export class Player implements Omit<Hit, 'mainNationality' | 'mainNationalityImageUrl'> {
+export class Player extends Hit {
     constructor(
-        public tmId: number,
-        public name: string,
+        tmId: number,
+        name: string,
         public fullName: string,
-        public imageUrl: string,
+        imageUrl: string,
+        mainNationality: string,
+        mainNationalityImageUrl: string | null,
         public dateOfBirth: Date | null,
         public placeOfBirth: string | null,
         public countryOfBirth: string | null,
@@ -26,17 +28,30 @@ export class Player implements Omit<Hit, 'mainNationality' | 'mainNationalityIma
         public age: number,
         public height: string | null,
         public position: string,
-        public club: string | null,
-        public clubImageUrl: string | null,
-        public status: string
-    ) { }
+        club: string | null,
+        clubImageUrl: string | null,
+        status: string
+    ) {
+        super(
+            tmId,
+            name,
+            imageUrl,
+            mainNationality,
+            mainNationalityImageUrl,
+            club,
+            clubImageUrl,
+            status
+        );
+    }
 
-    static adapt(playerDTO: PlayerDTO) {
+    static override adapt(playerDTO: PlayerDTO) {
         return new Player(
             playerDTO.tmId,
             playerDTO.name,
             playerDTO.fullName,
             playerDTO.imageUrl,
+            playerDTO.mainNationality || 'Unknown',
+            playerDTO.mainNationalityImageUrl,
             this.parseDate(playerDTO.dateOfBirth),
             playerDTO.placeOfBirth,
             playerDTO.countryOfBirth,
