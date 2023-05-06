@@ -312,8 +312,9 @@ namespace fut_muse_api.Repositories
 
                 // achievement property initialization
                 List<Achievement> achievements = new();
-                string name = "";
+                string achievementName = "";
                 int numberOfTitles = 0;
+                Dictionary<string, Title> dict = new();
                 List<Title> titles = new();
 
                 for (int i = 0; i < tableBodyNodes.Count(); i++)
@@ -326,17 +327,18 @@ namespace fut_muse_api.Repositories
                         // start building a new achievement once a title header is found
                         if (i > 0)
                         {
+                            titles = dict.Select(d => d.Value).ToList();
                             achievements.Add(new Achievement(
-                                name,
+                                achievementName,
                                 numberOfTitles,
                                 titles
                             ));
-                            titles = new();
+                            dict = new();
                         }
 
                         string titleNameRowValue = currentNode.InnerText.Trim();
                         int xIndex = titleNameRowValue.IndexOf("x");
-                        name = titleNameRowValue
+                        achievementName = titleNameRowValue
                             .Substring(xIndex + 2)
                             .ReplaceCountry()
                             .ReplaceEntity();
@@ -345,12 +347,12 @@ namespace fut_muse_api.Repositories
                     else
                     {
                         var titleNodes = currentNode.Descendants("td");
+                        string? entity = null;
+                        string? entityImageUrl = null;
                         string period = titleNodes
                             .First()
                             .InnerText
                             .Trim();
-                        string? entity = null;
-                        string? entityImageUrl = null;
 
                         // check for entity (team, organization, tournament, etc.)
                         // individually won titles do not have an entity
@@ -394,22 +396,33 @@ namespace fut_muse_api.Repositories
                             }
                         }
 
-                        titles.Add(new Title(
-                            period,
-                            entity,
-                            entityImageUrl
-                        ));
+                        // group period entities according to entity image url
+                        // (entity logo might have changed over time)
+                        Title? title = dict.GetValueOrDefault(entityImageUrl ?? "");
+                        if (title is not null && title.EntityImageUrl == entityImageUrl)
+                        {
+                            title.Periods.Add(period);
+                        }
+                        else
+                        {
+                            dict.Add(entityImageUrl ?? "", new Title(
+                                entity,
+                                entityImageUrl,
+                                new List<string>() { period }
+                            ));
+                        }
                     }
                 }
 
                 // add remaining achievement
+                titles = dict.Select(d => d.Value).ToList();
                 achievements.Add(new Achievement(
-                    name,
+                    achievementName,
                     numberOfTitles,
                     titles
                 ));
 
-                // filter out unmemorable achivements
+                // omit unmemorable achivements
                 return achievements.Where(achievement =>
                 {
                     return !achievement.Name.ToLower().Contains("participant") &&

@@ -2,19 +2,19 @@
 {
 	public class Title
 	{
-		public string Period { get; set; }
 		public string? Entity { get; set; }
 		public string? EntityImageUrl { get; set; }
+		public List<string> Periods { get; set; }
 
 		public Title(
-			string period,
 			string? entity,
-			string? entityImageUrl
+			string? entityImageUrl,
+			List<string> periods
 		)
 		{
-			Period = period;
 			Entity = entity;
 			EntityImageUrl = entityImageUrl;
+			Periods = periods;
 		}
 	}
 }

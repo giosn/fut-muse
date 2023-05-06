@@ -1,17 +1,17 @@
 export interface TitleDTO {
-    period: string,
     entity: string | null,
     entityImageUrl: string | null
+    periods: string[]
 };
 
 export class Title {
     constructor(titleDTO: TitleDTO) {
-        this.period = titleDTO.period;
         this.entity = titleDTO.entity;
         this.entityImageUrl = titleDTO.entityImageUrl;
+        this.periods = titleDTO.periods;
     }
 
-    period: string;
+    periods: string[];
     entity: string | null;
     entityImageUrl: string | null;
 }
