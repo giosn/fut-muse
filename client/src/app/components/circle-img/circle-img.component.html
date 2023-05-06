@@ -9,6 +9,7 @@
     }">
     <img
         [src]="imageUrl"
+        (error)="handleImgError($event)"
         [ngStyle]="{'object-fit': fit}"
         alt="image"/>
 </div>

@@ -20,6 +20,14 @@ export class CircleImgComponent implements OnInit {
 
     ngOnInit(): void {
         this.trueSize = typeof this.size === 'number' ? `${this.size}px`: this.size;
+        this.imageUrl.replace('/big/', '/medium/')
+    }
+
+    handleImgError(event: Event) {
+        if (this.imageUrl.includes('/big/')) {
+            const img = event.target as HTMLImageElement;
+            img.src = this.imageUrl.replace('/big/', '/medium/');
+        }
     }
 
 }
