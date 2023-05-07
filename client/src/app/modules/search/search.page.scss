@@ -89,7 +89,6 @@ table {
                 width: 36px;
                 height: 36px;
                 font-size: 36px;
-                color: #424242;
             }
         }
     }
@@ -112,7 +111,7 @@ table {
             background: #1976d2;
         }
         &.deceased {
-            background: #424242;
+            background: var(--base-color);
         }
     }
 }
