@@ -83,6 +83,15 @@ table {
             overflow: hidden;
             text-overflow: ellipsis;
         }
+        &.mat-column-club {
+            mat-icon {
+                margin-right: 16px;
+                width: 36px;
+                height: 36px;
+                font-size: 36px;
+                color: #424242;
+            }
+        }
     }
     &:hover {
         background: #eee;

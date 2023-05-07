@@ -74,17 +74,24 @@
                 <th mat-header-cell *matHeaderCellDef>Club</th>
                 <td mat-cell *matCellDef="let hit">
                     <a [routerLink]="['/player', hit.tmId]">
-                        <circle-img
-                            *ngIf="hit.club"
-                            [imageUrl]="hit.clubImageUrl!"
-                            [size]="36"
-                            fit="contain"
-                            [right]="16"
-                            [noBorder]="true"
-                            [noRadius]="true">
-                        </circle-img>
-                        <!-- &nbsp; allows cell to be clickable when empty -->
-                        <div class="text">{{hit.club}}&nbsp;</div>
+                        <ng-container *ngIf="hit.status === 'Active'; else elseTemplate">
+                            <circle-img
+                                *ngIf="hit.club"
+                                [imageUrl]="hit.clubImageUrl!"
+                                [size]="36"
+                                fit="contain"
+                                [right]="16"
+                                [noBorder]="true"
+                                [noRadius]="true">
+                            </circle-img>
+                            <mat-icon
+                                *ngIf="!hit.club"
+                                mat-list-icon>
+                                sports_soccer
+                            </mat-icon>
+                            <div class="text">{{hit.club || 'NA'}}</div>
+                        </ng-container>
+                        <ng-template #elseTemplate>&nbsp;</ng-template>
                     </a>
                 </td>
             </ng-container>

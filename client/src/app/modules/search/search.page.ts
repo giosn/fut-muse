@@ -25,8 +25,8 @@ export class SearchPage implements OnInit {
         private changeDetect: ChangeDetectorRef,
         private api: ApiService
     ) {
-        title.setTitle(`Fut Muse | Search | ${this.query}`);
         route.params.subscribe(params => this.query = params['query']);
+        title.setTitle(`Fut Muse | Search | ${this.query}`);
         const state = router.getCurrentNavigation()?.extras?.state;
         this.totalHits = state?.['totalHits'] || 0;
         const hits: Hit[] = state?.['hits'] || [];
