@@ -5,10 +5,11 @@
         <div>{{query}}</div>
     </div>
 
-    <mat-spinner
+    <div
         *ngIf="isLoading"
-        value="indeterminate">
-    </mat-spinner>
+        class="page-spinner">
+        <mat-spinner value="indeterminate"></mat-spinner>
+    </div>
 
     <mat-card [hidden]="isLoading || table.data.data.length === 0">
         <mat-progress-bar

@@ -53,6 +53,21 @@ span {
     color: var(--base-color);
 }
 
+// page initial loading spinner
+.page-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    mat-spinner,
+    mat-spinner svg {
+        width: 100% !important;
+        height: 100% !important;
+    }
+}
+
 // snackbar
 snack-bar-container {
     &.success {

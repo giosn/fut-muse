@@ -1,9 +1,10 @@
 <div class="player-container">
 
-    <mat-spinner
+    <div
         *ngIf="playerIsLoading"
-        value="indeterminate">
-    </mat-spinner>
+        class="page-spinner">
+        <mat-spinner value="indeterminate"></mat-spinner>
+    </div>
 
     <mat-card *ngIf="!playerIsLoading && player">
         <!-- player quick info header -->
