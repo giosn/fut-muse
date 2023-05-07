@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { PlayerPage } from './player.page';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ProfileComponent } from 'src/app/components/profile/profile.component';
 import { PlayerRoutingModule } from './player-routing.module';
+import { NgxSkeletonModule } from 'ngx-skeleton';
 
 @NgModule({
     declarations: [
-        PlayerPage,
-        ProfileComponent
+        PlayerPage
     ],
     imports: [
         SharedModule,
-        PlayerRoutingModule
+        PlayerRoutingModule,
+        NgxSkeletonModule
     ]
 })
 export class PlayerModule { }

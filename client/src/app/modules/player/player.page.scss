@@ -5,3 +5,138 @@ mat-spinner {
     transform: translate(-50%, -50%);
     zoom: 0.5;
 }
+::ng-deep mat-tab-header {
+    margin: -16px -16px 0;
+}
+.quick-info,
+.quick-info > div,
+.nationality,
+.full-details,
+.no-achievements {
+    display: flex;
+}
+.quick-info {
+    margin-bottom: 24px;
+    align-items: center;
+    width: 100%;
+    > div {
+        flex-direction: column;
+        > div {
+            padding: 4px 0;
+        }
+        .name {
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .full-name {
+            font-size: 16px;
+            color: #999;
+        }
+        .nationality {
+            align-items: center;
+            mat-icon {
+                margin: 0 4px 0 -2px;
+                color: #424242;
+            }
+        }
+        mat-chip {
+            color: #fff;
+            min-height: 26px;
+            &[disabled] {
+                opacity: 1;
+            }
+            &.main {
+                opacity: 0.7;
+                color: inherit;
+            }
+            &.active {
+                background: #00c853;
+            }
+            &.retired {
+                background: #1976d2;
+            }
+            &.deceased {
+                background: #616161;
+            }
+            &.unknown {
+                background: #fbc02d;
+            }
+        }
+    }
+}
+.mat-list-icon {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 32px !important;
+}
+.mat-tab-group {
+    .mat-chip-disabled,
+    .mat-badge-content {
+        opacity: 0.7 !important;
+    }
+    .mat-badge-content {
+        position: unset;
+        margin-left: 8px;
+        background-color: #e0e0e0;
+        color: rgba(0, 0, 0, 0.87);
+    }
+}
+.skeleton {
+    margin: 16px;
+    .header {
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        ngx-skeleton {
+            height: 20px;
+            &:first-of-type {
+                margin-right: 8px;
+                width: 25%;
+            }
+            &:last-of-type {
+                width: 20px;
+            }
+        }
+    }
+    .details {
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        .icon {
+            width: 36px;
+            height: 36px;
+            margin-right: 16px;
+        }
+        .text {
+            width: 20%;
+            height: 20px;
+        }
+        .chips {
+            display: flex;
+            margin-left: auto;
+            ngx-skeleton {
+                margin-left: 8px;
+                width: 56px;
+                height: 30px;
+            }
+        }
+    }
+    .divider {
+        display: flex;
+        width: 100%;
+        height: 2px;
+    }
+}
+.no-achievements {
+    opacity: 0.4;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    height: 150px;
+    mat-icon {
+        margin-right: 12px;
+        font-size: 36px;
+        width: 36px;
+        height: 36px;
+    }
+}

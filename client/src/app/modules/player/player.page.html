@@ -1,14 +1,222 @@
 <div class="player-container">
 
     <mat-spinner
-        *ngIf="isLoading"
+        *ngIf="playerIsLoading"
         value="indeterminate">
     </mat-spinner>
 
-    <profile
-        *ngIf="!isLoading && player"
-        [player]="player"
-        [achievements]="achievements">
-    </profile>
+    <mat-card *ngIf="!playerIsLoading && player">
+        <!-- player quick info header -->
+        <div class="quick-info">
+            <circle-img
+                [imageUrl]="player.imageUrl"
+                [size]="100"
+                [right]="16">
+            </circle-img>
+            <div>
+                <div class="name">{{player.name}}</div>
+                <div class="full-name">{{player.fullName}}</div>
+                <div class="nationality">
+                    <circle-img
+                        *ngIf="player.mainNationalityImageUrl"
+                        [imageUrl]="player.mainNationalityImageUrl!"
+                        [size]="26"
+                        [right]="7">
+                    </circle-img>
+                    <mat-icon
+                        *ngIf="!player.mainNationalityImageUrl"
+                        mat-list-icon>
+                        flag_circle
+                    </mat-icon>
+                    <mat-chip-list>
+                        <mat-chip
+                            class="main"
+                            disabled>
+                            {{player.mainNationality}}
+                        </mat-chip>
+                        <mat-chip
+                            disabled
+                            [class]="player.status.toLowerCase()">
+                            {{player.status}}
+                        </mat-chip>
+                    </mat-chip-list>
+                </div>
+            </div>
+        </div>
+
+        <mat-tab-group dynamicHeight>
+
+            <mat-tab label="Profile">
+                <mat-list>
+                    <div mat-subheader>Place of birth</div>
+                    <mat-list-item>
+                        <circle-img
+                            *ngIf="player.countryOfBirth"
+                            matListIcon
+                            [imageUrl]="player.countryOfBirthImageUrl!"
+                            size="100%"
+                            [right]="8">
+                        </circle-img>
+                        <mat-icon
+                            *ngIf="!player.countryOfBirth"
+                            mat-list-icon>
+                            flag
+                        </mat-icon>
+                        <div mat-line>
+                            {{
+                                player.countryOfBirth
+                                    ? player.placeOfBirth
+                                        ? player.placeOfBirth + ', ' + player.countryOfBirth
+                                        : player.countryOfBirth
+                                    : 'Unknown'
+                            }}
+                        </div>
+                    </mat-list-item>
+                    <mat-divider></mat-divider>
+                    <ng-container *ngIf="player.status === 'Deceased'">
+                        <div mat-subheader>Date of birth</div>
+                        <mat-list-item>
+                            <mat-icon mat-list-icon>crib</mat-icon>
+                            <div mat-line>{{player.dateOfBirth | date: 'mediumDate' || 'Unknown'}}</div>
+                        </mat-list-item>
+                        <mat-divider></mat-divider>
+                        <div mat-subheader>Date of death</div>
+                        <mat-list-item>
+                            <mat-icon mat-list-icon svgIcon="rip"></mat-icon>
+                            <div mat-line>
+                                {{player.dateOfDeath | date: 'mediumDate' || 'Unknown'}}
+                                <span *ngIf="player.dateOfDeath && player.age">({{player.age}})</span>
+                            </div>
+                        </mat-list-item>
+                        <mat-divider></mat-divider>
+                    </ng-container>
+                    <ng-container *ngIf="player.status !== 'Deceased'">
+                        <div mat-subheader>Age</div>
+                        <mat-list-item>
+                            <mat-icon mat-list-icon>person</mat-icon>
+                            <div mat-line>
+                                {{player.age || 'Unknown'}}
+                                {{
+                                    player.age && player.dateOfBirth
+                                        ? '(' + (player.dateOfBirth | date: 'mediumDate') + ')'
+                                        : ''
+                                }}
+                            </div>
+                        </mat-list-item>
+                        <mat-divider></mat-divider>
+                    </ng-container>
+                    <div mat-subheader>Height</div>
+                    <mat-list-item>
+                        <mat-icon mat-list-icon>height</mat-icon>
+                        <div mat-line>{{player.height || 'Unknown'}}</div>
+                    </mat-list-item>
+                    <mat-divider></mat-divider>
+                    <ng-container *ngIf="player.status === 'Active'">
+                        <div mat-subheader>Club</div>
+                        <mat-list-item>
+                            <circle-img
+                                *ngIf="player.club"
+                                matListIcon
+                                [imageUrl]="player.clubImageUrl!"
+                                size="100%"
+                                fit="contain"
+                                [right]="8"
+                                [noBorder]="true"
+                                [noRadius]="true">
+                            </circle-img>
+                            <mat-icon
+                                *ngIf="!player.club"
+                                mat-list-icon>
+                                sports_soccer
+                            </mat-icon>
+                            <div mat-line>{{player.club || 'NA'}}</div>
+                        </mat-list-item>
+                        <mat-divider></mat-divider>
+                    </ng-container>
+                    <div mat-subheader>Position</div>
+                    <mat-list-item>
+                        <mat-icon mat-list-icon>directions_run</mat-icon>
+                        <div mat-line>{{player.position}}</div>
+                    </mat-list-item>
+                </mat-list>
+            </mat-tab>
+
+            <mat-tab label="Achievements">
+                <!-- achievements loading skeleton -->
+                <ng-container *ngIf="achievementsLoading; else achievementsDone">
+                    <div class="skeleton" *ngFor="let i of [1,2,3]">
+                        <div class="header">
+                            <ngx-skeleton borderRadius="4px"></ngx-skeleton>
+                            <ngx-skeleton variant="circle"></ngx-skeleton>
+                        </div>
+                        <div class="details">
+                            <ngx-skeleton class="icon" variant="circle"></ngx-skeleton>
+                            <ngx-skeleton class="text" borderRadius="4px"></ngx-skeleton>
+                            <div class="chips">
+                                <ngx-skeleton borderRadius="20px"></ngx-skeleton>
+                                <ngx-skeleton borderRadius="20px"></ngx-skeleton>
+                                <ngx-skeleton borderRadius="20px"></ngx-skeleton>
+                            </div>
+                        </div>
+                        <ngx-skeleton
+                            *ngIf="i !== 3"
+                            class="divider"
+                            borderRadius="2px">
+                        </ngx-skeleton>
+                    </div>
+                </ng-container>
+
+                <ng-template #achievementsDone>
+                    <!-- achievements list -->
+                    <ng-container *ngIf="achievements.length > 0; else noAchievements">
+                        <mat-list>
+                            <ng-container
+                                *ngFor="let achievement of achievements; let i = index">
+                                <div
+                                    mat-subheader
+                                    [matBadge]="achievement.numberOfTitles">
+                                    {{achievement.name}}
+                                </div>
+                                <mat-list-item *ngFor="let title of achievement.titles">
+                                    <circle-img
+                                        *ngIf="title.entityImageUrl"
+                                        matListIcon
+                                        [imageUrl]="title.entityImageUrl!"
+                                        size="100%"
+                                        [fit]="title.entityImageUrl.includes('/flagge/') ? 'cover' : 'contain'"
+                                        [right]="8"
+                                        [noBorder]="!title.entityImageUrl.includes('/flagge/')"
+                                        [noRadius]="!title.entityImageUrl.includes('/flagge/')">
+                                    </circle-img>
+                                    <mat-icon
+                                        *ngIf="!title.entityImageUrl"
+                                        mat-list-icon>
+                                        emoji_events
+                                    </mat-icon>
+                                    <div mat-line>{{title.entity}}&nbsp;</div>
+                                    <mat-chip-list>
+                                        <mat-chip *ngFor="let period of title.periods" disabled>
+                                            {{period}}
+                                        </mat-chip>
+                                    </mat-chip-list>
+                                </mat-list-item>
+                                <mat-divider *ngIf="i < achievements.length - 1"></mat-divider>
+                            </ng-container>
+                        </mat-list>
+                    </ng-container>
+                    <!-- empty achievements list -->
+                    <ng-template #noAchievements>
+                        <div class="no-achievements">
+                            <mat-icon>emoji_events</mat-icon>
+                            <div>No achievements found</div>
+                        </div>
+                    </ng-template>
+
+                </ng-template>
+            </mat-tab>
+
+        </mat-tab-group>
+        
+    </mat-card>
 
 </div>
