@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SnackbarComponent } from './services/snackbar.service';
 import { SharedModule } from './shared/modules/shared.module';
-import { HomePageModule } from './modules/home/home.module';
+import { HomePageModule } from './pages/home/home.module';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 
 @NgModule({

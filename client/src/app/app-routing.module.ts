@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomePage } from './modules/home/home.page';
+import { HomePage } from './pages/home/home.page';
 
 const routes: Routes = [
     {
@@ -9,11 +9,11 @@ const routes: Routes = [
     },
     {
         path: 'player/:id',
-        loadChildren: () => import('./modules/player/player.module').then(m => m.PlayerModule)
+        loadChildren: () => import('./pages/player/player.module').then(m => m.PlayerModule)
     },
     {
         path: 'search/:query',
-        loadChildren: () => import('./modules/search/search.module').then(m => m.SearchModule)
+        loadChildren: () => import('./pages/search/search.module').then(m => m.SearchModule)
     },
     {
         path: '**',
