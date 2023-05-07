@@ -5,9 +5,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, switchMap, finalize, map } from 'rxjs';
-import { Hit } from 'src/app/models/hit.model';
-import { Search, SearchDTO } from 'src/app/models/search.model';
-import { ApiService } from 'src/app/services/api.service';
+import { Hit } from 'src/app/core/models/hit.model';
+import { Search, SearchDTO } from 'src/app/core/models/search.model';
+import { ApiService } from 'src/app/shared/services/api.service';
 
 @Component({
     selector: 'app-search',

@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment as env } from '@env';
-import { PlayerDTO } from '../models/player.model';
-import { AchievementDTO } from '../models/achievement.model';
-import { SearchDTO } from '../models/search.model';
+import { PlayerDTO } from 'src/app/core/models/player.model';
+import { AchievementDTO } from 'src/app/core/models/achievement.model';
+import { SearchDTO } from 'src/app/core/models/search.model';
 
 @Injectable({
     providedIn: 'root'

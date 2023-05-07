@@ -3,9 +3,9 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription, mergeMap } from 'rxjs';
-import { Achievement, AchievementDTO } from 'src/app/models/achievement.model';
-import { Player, PlayerDTO } from 'src/app/models/player.model';
-import { ApiService } from 'src/app/services/api.service';
+import { Achievement, AchievementDTO } from 'src/app/core/models/achievement.model';
+import { Player, PlayerDTO } from 'src/app/core/models/player.model';
+import { ApiService } from 'src/app/shared/services/api.service';
 
 @Component({
     selector: 'app-player',

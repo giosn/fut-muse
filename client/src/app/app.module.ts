@@ -4,10 +4,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { SnackbarComponent } from './services/snackbar.service';
+import { SnackbarComponent } from './core/services/snackbar.service';
 import { SharedModule } from './shared/modules/shared.module';
 import { HomePageModule } from './pages/home/home.module';
-import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 
 @NgModule({
     declarations: [
