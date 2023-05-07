@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PlayerPage } from './player.page';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { SharedModule } from 'src/app/shared/modules/shared.module';
 import { PlayerRoutingModule } from './player-routing.module';
 import { NgxSkeletonModule } from 'ngx-skeleton';
 

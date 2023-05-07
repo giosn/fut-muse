@@ -1,4 +1,19 @@
-<toolbar></toolbar>
+<mat-toolbar>
+    <a
+        matRipple
+        routerLink="/"
+        class="logo">
+        <mat-icon>emoji_events</mat-icon>
+        <span class="title">Fut Muse</span>
+    </a>
+    <span class="spacer"></span>
+    <a
+        mat-icon-button
+        href="https://github.com/giosn/fut-muse"
+        target="_blank">
+        <mat-icon svgIcon="github"></mat-icon>
+    </a>
+</mat-toolbar>
 
 <div class="main-container">
     <router-outlet></router-outlet>
