@@ -76,3 +76,19 @@ snack-bar-container {
 .search-container {
     animation: fade-in 0.5s;
 }
+
+// empty/not found graphics
+.empty-not-found {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 32px;
+    opacity: 0.13;
+    text-align: center;
+    line-height: normal;
+    img {
+        width: 300px;
+        height: 300px;
+    }
+}

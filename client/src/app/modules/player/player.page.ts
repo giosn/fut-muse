@@ -53,6 +53,7 @@ export class PlayerPage implements OnInit {
                 mergeMap((playerDTO: PlayerDTO) => {
                     const player: Player = Player.adapt(playerDTO);
                     this.player = player;
+                    this.title.setTitle(`${this.title.getTitle()} | ${this.player.name}`);
                     this.playerIsLoading = false;
                     return this.api.getAchievements(this.id);
                 })
@@ -71,9 +72,9 @@ export class PlayerPage implements OnInit {
                 }
             });
         this.playerSub.add(() => {
-            if (this.player) {
-                this.title.setTitle(`${this.title.getTitle()} | ${this.player.name}`);
-            }
+            this.playerNotFound = !this.playerIsLoading     &&
+                                  !this.achievementsLoading &&
+                                  !this.player;
         });
     }
 }

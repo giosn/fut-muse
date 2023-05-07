@@ -105,4 +105,13 @@
         </mat-paginator>
     </mat-card>
 
+    <div
+        *ngIf="!isLoading && table.data.data.length === 0"
+        class="empty-not-found">
+        <img
+            src="assets/imgs/no-players.png"
+            alt="no-players"/>
+        <div>No players found</div>
+    </div>
+
 </div>

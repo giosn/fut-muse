@@ -219,4 +219,13 @@
         
     </mat-card>
 
+    <div
+        *ngIf="playerNotFound"
+        class="empty-not-found">
+        <img
+            src="assets/imgs/player-not-found.png"
+            alt="player-not-found"/>
+        <div>Player does not exist</div>
+    </div>
+
 </div>
