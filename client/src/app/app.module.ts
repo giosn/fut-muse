@@ -6,12 +6,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SnackbarComponent } from './core/services/snackbar.service';
 import { SharedModule } from './shared/modules/shared.module';
-import { HomePageModule } from './pages/home/home.module';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
+import { HomePage } from './pages/home/home.page';
 
 @NgModule({
     declarations: [
         AppComponent,
+        HomePage,
         SnackbarComponent
     ],
     imports: [
@@ -19,8 +20,7 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
         AppRoutingModule,
         BrowserAnimationsModule,
         HttpClientModule,
-        SharedModule,
-        HomePageModule
+        SharedModule
     ],
     providers: [
         {
