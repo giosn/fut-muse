@@ -1,35 +1,33 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import { By } from '@angular/platform-browser';
+import { Router, RouterLinkWithHref } from '@angular/router';
 
 describe('AppComponent', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule
-      ],
-      declarations: [
-        AppComponent
-      ],
-    }).compileComponents();
-  });
+    let fixture: ComponentFixture<AppComponent>;
+    let router: Router;
+    let routerSpy: jasmine.Spy;
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports: [ RouterTestingModule ],
+            declarations: [ AppComponent ],
+        }).compileComponents();
 
-  it(`should have as title 'fut-muse-client'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('fut-muse-client');
-  });
+        fixture = TestBed.createComponent(AppComponent);
+        router = TestBed.inject(Router);
+        routerSpy = spyOn(router, 'navigateByUrl');
+    });
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('fut-muse-client app is running!');
-  });
+    it('should navigate to the default page on logo click', () => {
+        const logo = fixture.debugElement.query(By.directive(RouterLinkWithHref));
+        expect(logo).not.toBeNull();
+        logo.nativeElement.click();
+        expect(routerSpy).toHaveBeenCalledWith(
+            router.createUrlTree(['/']), 
+            jasmine.anything()
+        );
+    });
+
 });
