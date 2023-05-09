@@ -79,7 +79,8 @@ snack-bar-container {
     &.warn {
         background: #f37b1d;
     }
-    span {
+    span,
+    mat-icon {
         color: #fff;
     }
     mat-icon {

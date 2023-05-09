@@ -12,7 +12,7 @@ export class SnackbarService {
 
     show(message: string, type: SnackbarType, duration?: number) {
         const config: MatSnackBarConfig = {
-            duration:   duration ? duration : type === 'error' ? 6000 : 4000,
+            duration: duration || type === 'error' ? 6000 : 4000,
             panelClass: type,
             data: {
                 message: message,
@@ -24,20 +24,21 @@ export class SnackbarService {
 
 }
 
-@Component({
-    template:
-        `<span style="display: flex; align-items: center;">
-            <mat-icon>
-                {{data.type === 'success' ? 'check_circle' : data.type === 'error' ? 'error_outline' : 'warning'}}
-            </mat-icon>
-            {{data.message}}
-        </span>`,
-})
+const template: string = 
+    `<span style="display: flex; align-items: center;">
+        <mat-icon>
+            {{
+                data.type === 'success'
+                    ? 'check_circle'
+                    : data.type === 'error'
+                        ? 'error_outline'
+                        : 'warning'
+            }}
+        </mat-icon>
+        {{data.message}}
+    </span>`;
+
+@Component({ template })
 export class SnackbarComponent {
-
-    constructor(
-        public snackBarRef: MatSnackBarRef<SnackbarComponent>,
-        @Inject(MAT_SNACK_BAR_DATA) public data: any
-    ) { }
-
+    constructor(@Inject(MAT_SNACK_BAR_DATA) public data: any) { }
 }
