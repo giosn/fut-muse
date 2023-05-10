@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from 'src/app/shared/services/api.service';
+import { ApiService } from 'src/app/shared/services/api/api.service';
 import { Observable, debounceTime, distinctUntilChanged, filter, finalize, map, switchMap, tap } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { Search, SearchDTO } from 'src/app/core/models/search.model';

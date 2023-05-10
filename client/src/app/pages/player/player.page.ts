@@ -5,7 +5,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription, mergeMap } from 'rxjs';
 import { Achievement, AchievementDTO } from 'src/app/core/models/achievement.model';
 import { Player, PlayerDTO } from 'src/app/core/models/player.model';
-import { ApiService } from 'src/app/shared/services/api.service';
+import { ApiService } from 'src/app/shared/services/api/api.service';
 
 @Component({
     selector: 'app-player',

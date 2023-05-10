@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, switchMap, finalize, map } from 'rxjs';
 import { Hit } from 'src/app/core/models/hit.model';
 import { Search, SearchDTO } from 'src/app/core/models/search.model';
-import { ApiService } from 'src/app/shared/services/api.service';
+import { ApiService } from 'src/app/shared/services/api/api.service';
 
 @Component({
     selector: 'app-search',

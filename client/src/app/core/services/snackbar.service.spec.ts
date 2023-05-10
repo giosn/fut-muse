@@ -31,7 +31,7 @@ describe('SnackbarService', () => {
         service = TestBed.inject(SnackbarService);
     });
 
-    it('should render snackbar component on show()', () => {
+    it('#show should render the snackbar component', () => {
         service.show('test', 'success');
         fixture.detectChanges();
         expect(component).toBeTruthy();
