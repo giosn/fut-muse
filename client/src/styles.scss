@@ -53,6 +53,15 @@ span {
     color: var(--base-color);
 }
 
+// base disabled font color
+[disabled] {
+    mat-icon,
+    div,
+    span {
+        color: rgba(0, 0, 0, 0.38) !important;
+    }
+}
+
 // page initial loading spinner
 .page-spinner {
     position: absolute;

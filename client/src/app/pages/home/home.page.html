@@ -6,9 +6,11 @@
             <input
                 matInput
                 [formControl]="playerName"
-                [matAutocomplete]="autoComplete"/>
+                [matAutocomplete]="autoComplete"
+                data-cy="search-player"/>
                 <mat-autocomplete
                     #autoComplete="matAutocomplete"
+                    class="search-autocomplete"
                     autoActiveFirstOption>
                     <mat-option
                         *ngIf="isSearching && playerName.value.length > 0"
