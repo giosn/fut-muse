@@ -1,6 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using Fizzler.Systems.HtmlAgilityPack;
 using FutMuse.API.Extensions;
+using FutMuse.API.Helpers;
 using FutMuse.API.Models;
 using HtmlAgilityPack;
 
@@ -11,14 +12,10 @@ namespace FutMuse.API.Repositories
         public async Task<Player?> GetProfile(int id)
         {
             // retrieve html page
-            HttpClient client = new();
-            client.DefaultRequestHeaders.Add("user-agent", "*");
-            string response = await client.GetStringAsync($"https://www.transfermarkt.com/_/profil/spieler/{id}");
-            HtmlDocument htmlDoc = new();
-            htmlDoc.LoadHtml(response);
+            HtmlNode htmlDoc = await HtmlDocumentNode.Get($"https://www.transfermarkt.com/_/profil/spieler/{id}");
 
             // get the nodes for the name a player is most known for
-            HtmlNodeCollection nameNodes = htmlDoc.DocumentNode.SelectNodes("//header/div/h1");
+            HtmlNodeCollection nameNodes = htmlDoc.SelectNodes("//header/div/h1");
 
             if (nameNodes is not null)
             {
@@ -34,7 +31,6 @@ namespace FutMuse.API.Repositories
                 string name = string.Join("", actualNames).Trim();
                 string fullName = name;
                 string imageUrl = htmlDoc
-                    .DocumentNode
                     .QuerySelector(".data-header__profile-image")
                     .Attributes["src"]
                     .Value;
@@ -53,9 +49,7 @@ namespace FutMuse.API.Repositories
                 string? status = null;
 
                 // get the main node where the key profile info is located
-                HtmlNode playerDataNode = htmlDoc
-                    .DocumentNode
-                    .QuerySelector(".spielerdatenundfakten .info-table.info-table--right-space");
+                HtmlNode playerDataNode = htmlDoc.QuerySelector(".spielerdatenundfakten .info-table.info-table--right-space");
 
                 if (playerDataNode is not null)
                 {
@@ -220,7 +214,6 @@ namespace FutMuse.API.Repositories
 
                 // get the list of the summarized profile info
                 var headerDetailNodes = htmlDoc
-                    .DocumentNode
                     .QuerySelector(".data-header__details")
                     .Descendants("li");
 
@@ -297,15 +290,10 @@ namespace FutMuse.API.Repositories
         public async Task<IEnumerable<Achievement>?> GetAchivements(int id)
         {
             // retrieve html page
-            HttpClient client = new();
-            client.DefaultRequestHeaders.Add("user-agent", "*");
-            string response = await client.GetStringAsync($"https://www.transfermarkt.com/_/erfolge/spieler/{id}");
-            HtmlDocument htmlDoc = new();
-            htmlDoc.LoadHtml(response);
+            HtmlNode htmlDoc = await HtmlDocumentNode.Get($"https://www.transfermarkt.com/_/erfolge/spieler/{id}");
 
             // get the main node where a player's titles are listed
             HtmlNode? allTitlesHeader = htmlDoc
-                .DocumentNode
                 .Descendants("h2")
                 .FirstOrDefault(node => node.InnerText.ToLower().Trim() == "all titles");
 
@@ -441,7 +429,6 @@ namespace FutMuse.API.Repositories
             else
             {
                 HtmlNode? mostValuablePlayersHeader = htmlDoc
-                    .DocumentNode
                     .Descendants("h2")
                     .FirstOrDefault(node => node.InnerText.ToLower().Trim() == "most valuable players");
                 return mostValuablePlayersHeader is null ? Array.Empty<Achievement>() : null;

@@ -17,10 +17,12 @@
     <None Remove="Models\" />
     <None Remove="Repositories\" />
     <None Remove="Extensions\" />
+    <None Remove="Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Repositories\" />
     <Folder Include="Extensions\" />
+    <Folder Include="Helpers\" />
   </ItemGroup>
 </Project>
