@@ -21,6 +21,13 @@
             { "Turks- and Caicosinseln", "Turks and Caicos Islands" }
         };
 
+        /// <summary>
+        /// Looks for a country matching the given string in a
+        /// predefined dictionary and replaces it with a more accurate one
+        /// </summary>
+        /// <returns>
+        /// A string that is equivalent to the country
+        /// </returns>
         public static string ReplaceCountry(this string country)
         {
             string? newCountry = countryList.GetValueOrDefault(country);

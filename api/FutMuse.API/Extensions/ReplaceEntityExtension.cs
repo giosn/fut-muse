@@ -14,6 +14,13 @@
             { "U20-Weltmeisterschaft", "U20 World Cup" }
         };
 
+        /// <summary>
+        /// Looks for an entity matching the given string in a
+        /// predefined dictionary and replaces it with a more accurate one
+        /// </summary>
+        /// <returns>
+        /// A string that is equivalent to the entity
+        /// </returns>
         public static string ReplaceEntity(this string entity)
         {
             var newEntity = entityList.FirstOrDefault(e => entity.ToLower().Contains(e.Key.ToLower()));
