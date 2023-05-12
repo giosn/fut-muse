@@ -1,8 +1,8 @@
-﻿using fut_muse_api.Models;
-using fut_muse_api.Repositories;
+﻿using FutMuse.API.Models;
+using FutMuse.API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace fut_muse_api.Controllers
+namespace FutMuse.API.Controllers
 {
     [Route("api/[controller]")]
     public class SearchController : Controller

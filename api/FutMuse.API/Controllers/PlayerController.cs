@@ -1,10 +1,10 @@
-﻿using fut_muse_api.Models;
-using fut_muse_api.Repositories;
+﻿using FutMuse.API.Models;
+using FutMuse.API.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace fut_muse_api.Controllers
+namespace FutMuse.API.Controllers
 {
     [Route("api/[controller]")]
     public class PlayerController : Controller

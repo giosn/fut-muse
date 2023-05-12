@@ -1,7 +1,7 @@
 ﻿using System;
-using fut_muse_api.Models;
+using FutMuse.API.Models;
 
-namespace fut_muse_api.Repositories
+namespace FutMuse.API.Repositories
 {
 	public interface ISearchRepository
 	{

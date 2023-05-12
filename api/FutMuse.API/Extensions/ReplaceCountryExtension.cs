@@ -1,4 +1,4 @@
-﻿namespace fut_muse_api.Extensions
+﻿namespace FutMuse.API.Extensions
 {
     public static class ReplaceCountryExtension
     {

@@ -1,10 +1,10 @@
 ﻿using System.Text.RegularExpressions;
 using Fizzler.Systems.HtmlAgilityPack;
-using fut_muse_api.Extensions;
-using fut_muse_api.Models;
+using FutMuse.API.Extensions;
+using FutMuse.API.Models;
 using HtmlAgilityPack;
 
-namespace fut_muse_api.Repositories
+namespace FutMuse.API.Repositories
 {
     public class PlayerRepository : IPlayerRepository
     {

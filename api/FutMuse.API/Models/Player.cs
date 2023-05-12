@@ -1,5 +1,5 @@
 ﻿using System;
-namespace fut_muse_api.Models
+namespace FutMuse.API.Models
 {
 	public class Player : Hit
 	{

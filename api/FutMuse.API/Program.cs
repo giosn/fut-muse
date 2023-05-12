@@ -1,6 +1,6 @@
-﻿using fut_muse_api.Repositories;
+﻿using FutMuse.API.Repositories;
 
-namespace fut_muse_api;
+namespace FutMuse.API;
 
 public class Program
 {

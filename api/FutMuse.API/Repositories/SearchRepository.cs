@@ -1,10 +1,10 @@
 ﻿using System;
-using fut_muse_api.Extensions;
-using fut_muse_api.Models;
+using FutMuse.API.Extensions;
+using FutMuse.API.Models;
 using HtmlAgilityPack;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace fut_muse_api.Repositories
+namespace FutMuse.API.Repositories
 {
     public class SearchRepository : ISearchRepository
     {
