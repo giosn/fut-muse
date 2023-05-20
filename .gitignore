@@ -519,6 +519,10 @@ client/libpeerconnection.log
 client/testem.log
 client/typings
 
+# Cypress
+client/cypress/videos
+client/cypress/screenshots
+
 # System files
 .DS_Store
 Thumbs.db
