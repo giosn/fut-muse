@@ -1,5 +1,4 @@
-import { ChangeDetectorRef } from '@angular/core';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Title } from '@angular/platform-browser';
@@ -14,7 +13,7 @@ import { ApiService } from 'src/app/shared/services/api/api.service';
     templateUrl: './search.page.html',
     styleUrls: ['./search.page.scss']
 })
-export class SearchPage implements OnInit {
+export class SearchPage implements AfterViewInit, OnDestroy {
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -46,9 +45,6 @@ export class SearchPage implements OnInit {
         isLoading: boolean
     };
     paginatorSub: Subscription;
-
-    ngOnInit(): void {
-    }
 
     ngAfterViewInit(): void {
         this.checkTotalHits();

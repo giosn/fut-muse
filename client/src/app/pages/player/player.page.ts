@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -12,7 +12,7 @@ import { ApiService } from 'src/app/shared/services/api/api.service';
     templateUrl: './player.page.html',
     styleUrls: ['./player.page.scss']
 })
-export class PlayerPage implements OnInit {
+export class PlayerPage implements OnInit, OnDestroy {
 
     constructor(
         private title: Title,

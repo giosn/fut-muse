@@ -7,12 +7,12 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class CircleImgComponent implements OnInit {
 
-    @Input('imageUrl') imageUrl: string;
-    @Input('size') size: number | string;
-    @Input('fit') fit: 'cover' | 'contain' = 'cover';
-    @Input('right') right = 0;
-    @Input('noBorder') noBorder = false;
-    @Input('noRadius') noRadius = false;
+    @Input() imageUrl: string;
+    @Input() size: number | string;
+    @Input() fit: 'cover' | 'contain' = 'cover';
+    @Input() right = 0;
+    @Input() noBorder = false;
+    @Input() noRadius = false;
     
     constructor() { }
 
