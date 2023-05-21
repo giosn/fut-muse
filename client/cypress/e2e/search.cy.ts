@@ -6,12 +6,12 @@ describe('Search page', () => {
 
     it(`should navigate to the player page when a row's anchor is clicked`, () => {
         cy.wait('@getSearchResults').then(() => {
+            cy.on('url:changed', url => {
+                expect(url).to.contain('/player/');
+            });
             cy.get(`[data-cy="search-anchor"]`)
                 .first()
                 .click();
-            cy.location().then(loc => {
-                expect(loc.href).to.contain('/player/');
-            })
         });
     });
 

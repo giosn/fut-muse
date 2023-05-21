@@ -16,13 +16,13 @@ describe('Home page', () => {
             cy.intercept('GET', `${Cypress.env('apiUrl')}/search/*`).as('getSearchResults');
             cy.get(`[data-cy="search-player"]`).type('messi');
             cy.wait('@getSearchResults').then(() => {
+                cy.on('url:changed', url => {
+                    expect(url).to.contain('/player/');
+                });
                 cy.get('.search-autocomplete')
                     .find('.mat-option')
                     .eq(0)
                     .click();
-                cy.location().then(loc => {
-                    expect(loc.href).to.contain('/player/');
-                });
             });
         });
     
@@ -30,13 +30,13 @@ describe('Home page', () => {
             cy.intercept('GET', `${Cypress.env('apiUrl')}/search/*`).as('getSearchResults');
             cy.get(`[data-cy="search-player"]`).type('messi');
             cy.wait('@getSearchResults').then(() => {
+                cy.on('url:changed', url => {
+                    expect(url).to.contain('/search/messi');
+                });
                 cy.get('.search-autocomplete')
                     .find('.mat-option')
                     .last()
                     .click();
-                cy.location().then(loc => {
-                    expect(loc.href).to.contain('/search/messi');
-                });
             });
         })
     
