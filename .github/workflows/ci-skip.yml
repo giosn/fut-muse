@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  push:
+    branches-ignore:
+      - "main"
+    paths-ignore:
+      - "api/**"
+      - "client/**"
+  pull_request:
+    paths-ignore:
+      - "api/**"
+      - "client/**"
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: No tests required
+        run: 'echo "Skipping tests check"'
