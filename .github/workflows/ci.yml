@@ -1,52 +1,63 @@
 name: CI
 
-on: ['push', 'pull_request']
+on:
+  push:
+    branches:
+      - "*"
+      - "!main"
+    paths:
+      - "api/**"
+      - "client/**"
+  pull_request:
+    paths:
+      - "api/**"
+      - "client/**"
 
 jobs:
   tests:
     runs-on: ubuntu-latest
     defaults:
-        run:
-          working-directory: ./client
+      run:
+        working-directory: ./client
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: "16"
 
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
-            path: ~/.npm
-            key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-            restore-keys: ${{ runner.os }}-npm-
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-npm-
           
       - name: Install dependencies
         run: npm ci
 
       - name: Check code quality
         run: npm run lint
-        
+
       - name: Run unit tests
         run: npm run test:headless
 
-      - name: Setup Web API
+      - name: Set up web API
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0.x'
-  
-      - name: Run Web API
+          dotnet-version: "6.0.x"
+          
+      - name: Run web API
         run: dotnet run --project **/FutMuse.API.csproj &
         working-directory: ./api
-        
+
       - name: Run e2e tests
         uses: cypress-io/github-action@v3
         with:
           working-directory: ./client
-          build: npm run build --ignore-scripts
+          build: npm run build:prod
           start: npm run start:build
           config: video=false,screenshotOnRunFailure=false
           wait-on: http://localhost:4200

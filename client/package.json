@@ -5,11 +5,10 @@
     "ng": "ng",
     "start": "ng serve",
     "lint": "ng lint",
-    "prebuild": "npm version patch --no-git-tag-version",
-    "build": "ng build -c production --output-path dist --progress false",
-    "start:build": "angular-http-server --path dist -p 4200 --silent",
     "test": "ng test --code-coverage",
     "test:headless": "ng test --watch false --browsers ChromeHeadless --progress false --code-coverage",
+    "build:prod": "ng build -c production --output-path dist --progress false",
+    "start:build": "angular-http-server --path dist -p 4200 --silent",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "build:staging": "ng build -c staging --output-path dist --progress false"
