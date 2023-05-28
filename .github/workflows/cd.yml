@@ -1,0 +1,47 @@
+name: CD
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  deploy-api:
+    name: Deploy web API
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up web API
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "6.0.x"
+
+      - name: Build API
+        run: dotnet publish -c Release -o ./release
+        working-directory: ./api
+
+      - name: Deploy web API
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: "AngularDotnetGHActions"
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ./api/release
+
+  deploy-client:
+    name: Deploy client
+    needs: deploy-api
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Deploy client
+        uses: azure/static-web-apps-deploy@v1
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          app_location: "client"
+          app_build_command: npm run build --ignore-scripts
+          output_location: "dist"
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          action: "upload"
