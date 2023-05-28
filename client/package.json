@@ -11,7 +11,9 @@
     "start:build": "angular-http-server --path dist -p 4200 --silent",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "build:staging": "ng build -c staging --output-path dist --progress false"
+    "build:staging": "ng build -c staging --output-path dist --progress false",
+    "build": "ng build -c deploy --output-path dist --progress false",
+    "release": "npm version"
   },
   "private": true,
   "dependencies": {
