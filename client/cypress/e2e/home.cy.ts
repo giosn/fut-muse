@@ -1,3 +1,5 @@
+import 'cypress-failed-log';
+
 describe('Home page', () => {
     beforeEach(() => cy.visit('/'));
 

@@ -522,6 +522,7 @@ client/typings
 # Cypress
 client/cypress/videos
 client/cypress/screenshots
+client/cypress/logs
 
 # System files
 .DS_Store

@@ -1,3 +1,5 @@
+import 'cypress-failed-log';
+
 describe('Search page', () => {
     beforeEach(() => {
         cy.intercept('GET', `${Cypress.env('apiUrl')}/search/*`).as('getSearchResults');
