@@ -9,12 +9,22 @@ namespace FutMuse.API.Repositories
 {
     public class SearchRepository : ISearchRepository
     {
+        private readonly IConfiguration configuration;
+
+        public SearchRepository(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+        }
+
         public async Task<Search> Get(string query, int page)
         {
+            // safely retrieve ScrapeOps API key
+            string scrapeOpsApiKey = configuration["SCRAPEOPS_API_KEY"];
+
             // retrieve html page
             string requestUri = $"https://www.transfermarkt.com/schnellsuche/ergebnis/schnellsuche?query={query}";
             requestUri += page > 1 ? $"&Spieler_page={page}" : "";
-            HtmlNode htmlDoc = await HtmlDocumentNode.Get(requestUri);
+            HtmlNode htmlDoc = await HtmlDocumentNode.Get(requestUri, scrapeOpsApiKey);
 
             // get the header node that indicates search hits are found
             HtmlNode? searchResultsHeader = htmlDoc

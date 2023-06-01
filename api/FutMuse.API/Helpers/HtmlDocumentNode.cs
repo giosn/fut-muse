@@ -1,5 +1,4 @@
-﻿using System;
-using HtmlAgilityPack;
+﻿using HtmlAgilityPack;
 
 namespace FutMuse.API.Helpers
 {
@@ -12,13 +11,20 @@ namespace FutMuse.API.Helpers
 		/// <returns>
 		/// The html document node
 		/// </returns>
-		public static async Task<HtmlNode> Get(string requestUri)
+		public static async Task<HtmlNode> Get(string requestUri, string apiKey)
 		{
-			HttpClient client = new();
-			client.DefaultRequestHeaders.Add("user-agent", "*");
-			string response = await client.GetStringAsync(requestUri);
+            string proxyUrl = $"https://proxy.scrapeops.io/v1/?api_key={apiKey}&url={Uri.EscapeDataString(requestUri)}";
+
+			HttpClient client = new()
+            {
+                Timeout = TimeSpan.FromSeconds(120)
+            };
+
+            string response = await client.GetStringAsync(proxyUrl);
+
 			HtmlDocument htmlDoc = new();
 			htmlDoc.LoadHtml(response);
+
 			return htmlDoc.DocumentNode;
 		}
 	}
