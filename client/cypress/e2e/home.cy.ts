@@ -10,27 +10,69 @@ describe('Home page', () => {
         });
     
         it('should trigger search when typing a player name that is 3 characters or longer', () => {
-            cy.get(`[data-cy="search-player"]`).type('messi');
+            // stub search results
+            cy.intercept(
+                'GET',
+                `${Cypress.env('apiUrl')}/search/*`,
+                { fixture: 'search-results.json' }
+            ).as('getSearchResults');
+
+            cy.get(`[data-cy="search-player"]`).type('mes');
+
+            // force stubbing
+            cy.wait('@getSearchResults');
+
             cy.get('.search-autocomplete').should('be.visible');
         });
     
         it('should navigate to the player page when an option is clicked', () => {
-            cy.intercept('GET', `${Cypress.env('apiUrl')}/search/*`).as('getSearchResults');
+            // stub search results
+            cy.intercept(
+                'GET',
+                `${Cypress.env('apiUrl')}/search/*`,
+                { fixture: 'search-results.json' }
+            ).as('getSearchResults');
+
             cy.get(`[data-cy="search-player"]`).type('messi');
+
             cy.wait('@getSearchResults').then(() => {
                 cy.on('url:changed', url => {
                     expect(url).to.contain('/player/');
                 });
+
+                // stub player responses
+                cy.intercept(
+                    'GET',
+                    `${Cypress.env('apiUrl')}/player/profile/*`,
+                    { fixture: 'player-profile.json' }
+                ).as('getPlayerProfile');
+                cy.intercept(
+                    'GET',
+                    `${Cypress.env('apiUrl')}/player/achievements/*`,
+                    { fixture: 'player-achievements.json' }
+                ).as('getPlayerAchievements');
+
                 cy.get('.search-autocomplete')
                     .find('.mat-option')
                     .eq(0)
                     .click();
+
+                // force stubbing
+                cy.wait('@getPlayerProfile');
+                cy.wait('@getPlayerAchievements');
             });
         });
     
         it(`should navigate to the search page when the "View all results option" is clicked`, () => {
-            cy.intercept('GET', `${Cypress.env('apiUrl')}/search/*`).as('getSearchResults');
+            // stub search results
+            cy.intercept(
+                'GET',
+                `${Cypress.env('apiUrl')}/search/*`,
+                { fixture: 'search-results.json' }
+            ).as('getSearchResults');
+
             cy.get(`[data-cy="search-player"]`).type('messi');
+
             cy.wait('@getSearchResults').then(() => {
                 cy.on('url:changed', url => {
                     expect(url).to.contain('/search/messi');
@@ -43,8 +85,15 @@ describe('Home page', () => {
         })
     
         it('should have only 1 option (disabled) when no search results are found', () => {
-            cy.intercept('GET', `${Cypress.env('apiUrl')}/search/*`).as('getSearchResults');
+            // stub search results
+            cy.intercept(
+                'GET',
+                `${Cypress.env('apiUrl')}/search/*`,
+                { fixture: 'empty-search.json' }
+            ).as('getSearchResults');
+
             cy.get(`[data-cy="search-player"]`).type('not_a_player');
+
             cy.wait('@getSearchResults').then(() => {
                 cy.get('.search-autocomplete')
                     .find('.mat-option')

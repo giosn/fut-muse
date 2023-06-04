@@ -1,0 +1,19 @@
+{
+    "fullName": "",
+    "dateOfBirth": null,
+    "placeOfBirth": null,
+    "countryOfBirth": null,
+    "countryOfBirthImageUrl": null,
+    "dateOfDeath": null,
+    "age": 0,
+    "height": null,
+    "position": "",
+    "tmId": 0,
+    "name": "",
+    "imageUrl": "",
+    "club": null,
+    "clubImageUrl": null,
+    "mainNationality": null,
+    "mainNationalityImageUrl": null,
+    "status": null
+}

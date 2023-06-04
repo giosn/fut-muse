@@ -2,7 +2,13 @@ import 'cypress-failed-log';
 
 describe('Search page', () => {
     beforeEach(() => {
-        cy.intercept('GET', `${Cypress.env('apiUrl')}/search/*`).as('getSearchResults');
+        // stub search results
+        cy.intercept(
+            'GET',
+            `${Cypress.env('apiUrl')}/search/*`,
+            { fixture: 'search-results.json' }
+        ).as('getSearchResults');
+
         cy.visit('search/messi');
     });
 
@@ -11,14 +17,32 @@ describe('Search page', () => {
             cy.on('url:changed', url => {
                 expect(url).to.contain('/player/');
             });
+
+            // stub player responses
+            cy.intercept(
+                'GET',
+                `${Cypress.env('apiUrl')}/player/profile/*`,
+                { fixture: 'player-profile.json' }
+            ).as('getPlayerProfile');
+            cy.intercept(
+                'GET',
+                `${Cypress.env('apiUrl')}/player/achievements/*`,
+                { fixture: 'player-achievements.json' }
+            ).as('getPlayerAchievements');
+
             cy.get(`[data-cy="search-anchor"]`)
                 .first()
                 .click();
+
+            // force stubbing
+            cy.wait('@getPlayerProfile');
+            cy.wait('@getPlayerAchievements');
         });
     });
 
     it(`should get search results when the paginator buttons are clicked`, () => {
         let totalHits: number;
+
         cy.wait('@getSearchResults').then(interception => {
             totalHits = interception.response!.body.totalHits;
             cy.get(`[data-cy="search-paginator"] .mat-paginator-navigation-next`);
