@@ -486,7 +486,7 @@ api/**/*.lnk
 client/dist
 client/tmp
 clientclient/out-tsc
-/bazel-out
+client/bazel-out
 
 # Node
 client/node_modules
