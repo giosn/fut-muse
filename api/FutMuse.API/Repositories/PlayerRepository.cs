@@ -9,20 +9,17 @@ namespace FutMuse.API.Repositories
 {
     public class PlayerRepository : IPlayerRepository
     {
-        private readonly IConfiguration configuration;
+        private readonly HtmlDocumentNode htmlDocumentNode;
 
-        public PlayerRepository(IConfiguration configuration)
+        public PlayerRepository(HtmlDocumentNode htmlDocumentNode)
         {
-            this.configuration = configuration;
+            this.htmlDocumentNode = htmlDocumentNode;
         }
 
         public async Task<Player?> GetProfile(int id)
         {
-            // safely retrieve ScrapeOps API key
-            string scrapeOpsApiKey = configuration["SCRAPEOPS_API_KEY"];
-
             // retrieve html page
-            HtmlNode htmlDoc = await HtmlDocumentNode.Get($"https://www.transfermarkt.com/_/profil/spieler/{id}", scrapeOpsApiKey);
+            HtmlNode htmlDoc = await htmlDocumentNode.Get($"https://www.transfermarkt.com/_/profil/spieler/{id}");
 
             // get the nodes for the name a player is most known for
             HtmlNodeCollection nameNodes = htmlDoc.SelectNodes("//header/div/h1");
@@ -299,11 +296,8 @@ namespace FutMuse.API.Repositories
 
         public async Task<IEnumerable<Achievement>?> GetAchivements(int id)
         {
-            // safely retrieve ScrapeOps API key
-            string scrapeOpsApiKey = configuration["SCRAPEOPS_API_KEY"];
-
             // retrieve html page
-            HtmlNode htmlDoc = await HtmlDocumentNode.Get($"https://www.transfermarkt.com/_/erfolge/spieler/{id}", scrapeOpsApiKey);
+            HtmlNode htmlDoc = await htmlDocumentNode.Get($"https://www.transfermarkt.com/_/erfolge/spieler/{id}");
 
             // get the main node where a player's titles are listed
             HtmlNode? allTitlesHeader = htmlDoc

@@ -1,4 +1,5 @@
-﻿using FutMuse.API.Repositories;
+﻿using FutMuse.API.Helpers;
+using FutMuse.API.Repositories;
 
 namespace FutMuse.API;
 
@@ -27,9 +28,10 @@ public class Program
             });
         });
 
-        // Repositories
+        // Dependencies
         builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
         builder.Services.AddScoped<ISearchRepository, SearchRepository>();
+        builder.Services.AddScoped<HtmlDocumentNode>();
 
         var app = builder.Build();
 

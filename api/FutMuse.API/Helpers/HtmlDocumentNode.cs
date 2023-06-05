@@ -2,8 +2,17 @@
 
 namespace FutMuse.API.Helpers
 {
-	public static class HtmlDocumentNode
+	public class HtmlDocumentNode
 	{
+		private readonly IConfiguration configuration;
+		private readonly IWebHostEnvironment environment;
+
+		public HtmlDocumentNode(IConfiguration configuration, IWebHostEnvironment environment)
+		{
+			this.configuration = configuration;
+			this.environment = environment;
+		}
+
 		/// <summary>
 		/// Creates the html document for the specified request URI
 		/// </summary>
@@ -11,16 +20,27 @@ namespace FutMuse.API.Helpers
 		/// <returns>
 		/// The html document node
 		/// </returns>
-		public static async Task<HtmlNode> Get(string requestUri, string apiKey)
+		public async Task<HtmlNode> Get(string requestUri)
 		{
-            string proxyUrl = $"https://proxy.scrapeops.io/v1/?api_key={apiKey}&url={Uri.EscapeDataString(requestUri)}";
+            string scrapeOpsApiKey = configuration["Secrets:SCRAPEOPS_API_KEY"];
+			string userAgent = configuration["UserAgent"];
+			string response;
 
-			HttpClient client = new()
-            {
-                Timeout = TimeSpan.FromSeconds(120)
-            };
-
-            string response = await client.GetStringAsync(proxyUrl);
+			if (environment.IsDevelopment())
+			{
+                HttpClient client = new();
+                client.DefaultRequestHeaders.Add("user-agent", userAgent);
+                response = await client.GetStringAsync(requestUri);
+            }
+			else
+			{
+				string proxyUrl = $"https://proxy.scrapeops.io/v1/?api_key={scrapeOpsApiKey}&url={Uri.EscapeDataString(requestUri)}";
+				HttpClient client = new()
+				{
+					Timeout = TimeSpan.FromSeconds(120)
+				};
+                response = await client.GetStringAsync(proxyUrl);
+            }
 
 			HtmlDocument htmlDoc = new();
 			htmlDoc.LoadHtml(response);
