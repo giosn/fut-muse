@@ -23,7 +23,8 @@ public class Program
             {
                 policy.WithOrigins(
                     "http://localhost:4200",
-                    "https://witty-cliff-09384fd10.3.azurestaticapps.net"
+                    "https://witty-cliff-09384fd10.3.azurestaticapps.net",
+                    "https://witty-stone-05f3f3210.3.azurestaticapps.net"
                 );
             });
         });
