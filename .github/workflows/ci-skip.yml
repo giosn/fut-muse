@@ -2,8 +2,7 @@ name: CI
 
 on:
   push:
-    branches-ignore:
-      - "main"
+    branches-ignore: [main, staging]
     paths-ignore:
       - "api/**"
       - "client/**"
