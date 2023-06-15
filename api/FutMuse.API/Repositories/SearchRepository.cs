@@ -9,17 +9,21 @@ namespace FutMuse.API.Repositories
 {
     public class SearchRepository : ISearchRepository
     {
+        private readonly IConfiguration configuration;
+        private readonly string baseUrl;
         private readonly HtmlDocumentNode htmlDocumentNode;
 
-        public SearchRepository(HtmlDocumentNode htmlDocumentNode)
+        public SearchRepository(IConfiguration configuration, HtmlDocumentNode htmlDocumentNode)
         {
+            this.configuration = configuration;
+            this.baseUrl = configuration["Urls:Base"];
             this.htmlDocumentNode = htmlDocumentNode;
         }
 
         public async Task<Search> Get(string query, int page)
         {
             // retrieve html page
-            string requestUri = $"https://www.transfermarkt.com/schnellsuche/ergebnis/schnellsuche?query={query}";
+            string requestUri = $"{baseUrl}/schnellsuche/ergebnis/schnellsuche?query={query}";
             requestUri += page > 1 ? $"&Spieler_page={page}" : "";
             HtmlNode htmlDoc = await htmlDocumentNode.Get(requestUri);
 

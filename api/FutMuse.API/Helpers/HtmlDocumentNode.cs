@@ -28,19 +28,19 @@ namespace FutMuse.API.Helpers
 
 			if (environment.IsDevelopment())
 			{
-                HttpClient client = new();
-                client.DefaultRequestHeaders.Add("user-agent", userAgent);
-                response = await client.GetStringAsync(requestUri);
-            }
+				HttpClient client = new();
+				client.DefaultRequestHeaders.Add("user-agent", userAgent);
+				response = await client.GetStringAsync(requestUri);
+			}
 			else
 			{
-				string proxyUrl = $"https://proxy.scrapeops.io/v1/?api_key={scrapeOpsApiKey}&url={Uri.EscapeDataString(requestUri)}";
+				string proxyUrl = $"https://proxy.scrapeops.io/v1/?api_key={scrapeOpsApiKey}&url={Uri.EscapeDataString(requestUri)}&residential=true&country=us";
 				HttpClient client = new()
 				{
 					Timeout = TimeSpan.FromSeconds(120)
 				};
                 response = await client.GetStringAsync(proxyUrl);
-            }
+			}
 
 			HtmlDocument htmlDoc = new();
 			htmlDoc.LoadHtml(response);

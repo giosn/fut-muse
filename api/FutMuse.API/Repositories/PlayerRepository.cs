@@ -9,17 +9,21 @@ namespace FutMuse.API.Repositories
 {
     public class PlayerRepository : IPlayerRepository
     {
+        private readonly IConfiguration configuration;
+        private readonly string baseUrl;
         private readonly HtmlDocumentNode htmlDocumentNode;
 
-        public PlayerRepository(HtmlDocumentNode htmlDocumentNode)
+        public PlayerRepository(IConfiguration configuration, HtmlDocumentNode htmlDocumentNode)
         {
+            this.configuration = configuration;
+            this.baseUrl = configuration["Urls:Base"];
             this.htmlDocumentNode = htmlDocumentNode;
         }
 
         public async Task<Player?> GetProfile(int id)
         {
             // retrieve html page
-            HtmlNode htmlDoc = await htmlDocumentNode.Get($"https://www.transfermarkt.com/_/profil/spieler/{id}");
+            HtmlNode htmlDoc = await htmlDocumentNode.Get($"{baseUrl}/_/profil/spieler/{id}");
 
             // get the nodes for the name a player is most known for
             HtmlNodeCollection nameNodes = htmlDoc.SelectNodes("//header/div/h1");
@@ -297,7 +301,7 @@ namespace FutMuse.API.Repositories
         public async Task<IEnumerable<Achievement>?> GetAchivements(int id)
         {
             // retrieve html page
-            HtmlNode htmlDoc = await htmlDocumentNode.Get($"https://www.transfermarkt.com/_/erfolge/spieler/{id}");
+            HtmlNode htmlDoc = await htmlDocumentNode.Get($"{baseUrl}/_/erfolge/spieler/{id}");
 
             // get the main node where a player's titles are listed
             HtmlNode? allTitlesHeader = htmlDoc
