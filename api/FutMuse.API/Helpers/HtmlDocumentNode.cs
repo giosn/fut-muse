@@ -22,7 +22,7 @@ namespace FutMuse.API.Helpers
 		/// </returns>
 		public async Task<HtmlNode> Get(string requestUri)
 		{
-            string scrapeOpsApiKey = configuration["Secrets:SCRAPEOPS_API_KEY"];
+			string scrapeOpsApiKey = configuration["Secrets:SCRAPEOPS_API_KEY"];
 			string userAgent = configuration["UserAgent"];
 			string response;
 
@@ -39,7 +39,7 @@ namespace FutMuse.API.Helpers
 				{
 					Timeout = TimeSpan.FromSeconds(120)
 				};
-                response = await client.GetStringAsync(proxyUrl);
+				response = await client.GetStringAsync(proxyUrl);
 			}
 
 			HtmlDocument htmlDoc = new();

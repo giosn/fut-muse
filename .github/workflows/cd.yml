@@ -24,7 +24,7 @@ jobs:
       - name: Deploy web API
         uses: azure/webapps-deploy@v2
         with:
-          app-name: "AngularDotnetGHActions"
+          app-name: "FutMuse"
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: ./api/release
 

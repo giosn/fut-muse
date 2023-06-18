@@ -6,7 +6,7 @@
 
 Have you ever wanted to find out more about your favorite football (soccer) player, whether he's currently active playing for your favorite club, a historical legend or a retired figure? Do you find yourself jumping from one website to another, becoming overwhelmed by a bunch of stats and charts when all you really care about is knowing what trophies that player has under his name? Oh, and don't forget about ads and buggy websites that are difficult to interact with.
 
-Look no further, [Fut Muse](https://witty-stone-05f3f3210.3.azurestaticapps.net) is a website designed for visualizing football player profile and achievements data in a simple, user-friendly manner. Here, you won't find overcomplicated charts or over-the-top stats no one really understands. Just type the name of the player you want to search and quickly find the information you really care about.
+Look no further, [Fut Muse](https://www.futmuse.com) is a website designed for visualizing football player profile and achievements data in a simple, user-friendly manner. Here, you won't find overcomplicated charts or over-the-top stats no one really understands. Just type the name of the player you want to search and quickly find the information you really care about.
 
 ## How does it work?
 
